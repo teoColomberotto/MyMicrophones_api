@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler')
-
 const Mic = require('../models/micModel')
 
 // @desc Get Mics list
@@ -20,16 +19,13 @@ const getMic = asyncHandler(async (req, res) => {
 // @desc Create a new Mic
 // @route POST /microphones
 // @access Private
-const setMic = asyncHandler(async (req, res) => {
-    if (!req.body.name) {
-        res.status(400)
-        throw new Error('A name is required')
-    }
+const setMic = asyncHandler( 
+    async (req, res) => {
 
-    const mic = await Mic.create({
-        name: req.body.name
-    })
-    res.status(200).json(mic);
+    // const mic = await Mic.create({
+    //     name: req.body.name
+    // })
+    res.status(200).json();
 })
 
 // @desc Update Mic from ID
@@ -45,6 +41,8 @@ const updateMic = asyncHandler(async (req, res) => {
 const deleteMic = asyncHandler(async (req, res) => {
     res.status(200).json({message: `Deleted microphone ${req.params.id}`});
 })
+
+
 
 module.exports = {
     getMics,

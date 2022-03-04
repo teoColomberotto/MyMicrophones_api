@@ -10,7 +10,7 @@ const micSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    year: Date,
+    year: Number,
     technology: {
         type: String,
         enum: ['dynamic', 'condenser', 'ribbon', 'other'],
@@ -29,18 +29,52 @@ const micSchema = mongoose.Schema({
         MaxSpl: Number,
         SNRatio: Number,
         Sensitivity: Number,
-        Distortion: Number,
-        PolarPatterns: {
-            Omidirectional: Boolean,
-            Cardioid: Boolean,
-            SuperCardioid: Boolean,
-            HyperCardioid: Boolean,
-            Figure8: Boolean,
-            Shotgun: Boolean
+        distortion: {
+            type: Number,
+            min: 0,
+            max: 1
+        },
+        polarPatterns: {
+            omidirectional: {
+                type: Boolean,
+                default: null 
+            },
+            cardioid: {
+                type: Boolean,
+                default: null 
+            },
+            superCardioid: {
+                type: Boolean,
+                default: null 
+            },
+            hyperCardioid: {
+                type: Boolean,
+                default: null 
+            },
+            figure8: {
+                type: Boolean,
+                default: null 
+            },
+            shotgun: {
+                type: Boolean,
+                default: null 
+            }
         }
     },
-    image: String,
-    rating: Number,
+    image: {
+        type: String,
+        default: "https://toppng.com/uploads/preview/mic-icon-11553430296usfhy8bwwf.png"
+    },
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        validate: {
+            validator: Number.isInteger,
+            message: '{VALUE} must be an integer'
+        },
+        default: null
+    },
 
 
 }, {
