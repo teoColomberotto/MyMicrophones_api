@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
+const Mic = require('../models/micModel')
+
 // @desc Get Mics list
 // @route GET /microphones
 // @access Private
