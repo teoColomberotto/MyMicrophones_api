@@ -8,7 +8,6 @@ var micsRouter = require('./routes/microphones');
 var usersRouter = require('./routes/users');
 
 
-
 const dotenv = require('dotenv').config()
 const {errorHandler} = require('./middleware/errorMiddleware')
 const port = process.env.PORT || 5000
@@ -17,10 +16,6 @@ const connectDB = require('./config/db')
 
 connectDB()
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
