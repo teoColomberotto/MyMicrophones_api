@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 
 exports.micRequestSchema = [
     //check if required fields exists
@@ -15,5 +15,12 @@ exports.micRequestSchema = [
 
     //check for enums
     body('technology').isIn(['dynamic', 'condenser', 'ribbon', 'other']),
-    body('preamp').isIn(['transistor', 'tube', 'other'])
+    body('preamp').isIn(['transistor', 'tube', 'other']),
+
+    //check for request params
+
+];
+
+exports.idRequestSchema = [
+    param('id').isMongoId().withMessage('The id must be a MongoDB id')
 ];

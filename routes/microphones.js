@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const {getMics, getMic, setMic, updateMic, deleteMic} = require('../controllers/micsController');
+const {getMics, getMic, setMic, updateMic, deleteMic, loadMicFromParamsMiddleware} = require('../controllers/micsController');
 const { micRequestSchema } = require('../middleware/validators/requestsSchemas');
+const { idRequestSchema } = require('../middleware/validators/requestsSchemas');
 const {validateRequest} = require('../middleware/validators/requestValidator')
 
 
@@ -11,12 +12,12 @@ const {validateRequest} = require('../middleware/validators/requestValidator')
 
 router.get('/', getMics)
 
-router.get('/:id', getMic) 
+router.get('/:id', idRequestSchema, validateRequest, loadMicFromParamsMiddleware, getMic) 
 
 router.post('/', micRequestSchema, validateRequest, setMic) 
 
-router.patch('/:id', updateMic) 
+router.patch('/:id', idRequestSchema, micRequestSchema, validateRequest, loadMicFromParamsMiddleware, updateMic) 
 
-router.delete('/:id', deleteMic)
+router.delete('/:id', idRequestSchema, validateRequest, loadMicFromParamsMiddleware, deleteMic)
 
 module.exports = router;
