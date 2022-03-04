@@ -1,6 +1,12 @@
 const { links } = require('express/lib/response')
 const mongoose = require('mongoose')
 
+
+/* 2 add
+    fornt adress / side adress
+    connector
+    integrated amp or not?
+*/
 const micSchema = mongoose.Schema({
     name: {
         type: String,
