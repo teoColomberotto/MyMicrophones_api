@@ -6,7 +6,8 @@ const Mic = require('../models/micModel')
 // @route GET /microphones
 // @access Private
 const getMics =  asyncHandler(async (req, res) => {
-    res.status(200).json({message: 'Get microphones list'});
+    const mics = await Mic.find();
+    res.status(200).json(mics);
 })
 
 // @desc Get Mic from ID
@@ -20,11 +21,15 @@ const getMic = asyncHandler(async (req, res) => {
 // @route POST /microphones
 // @access Private
 const setMic = asyncHandler(async (req, res) => {
-    if (!req.body.text) {
+    if (!req.body.name) {
         res.status(400)
-        throw new Error('Add a text field')
+        throw new Error('A name is required')
     }
-    res.status(200).json({message: 'Set microphone'});
+
+    const mic = await Mic.create({
+        name: req.body.name
+    })
+    res.status(200).json(mic);
 })
 
 // @desc Update Mic from ID
