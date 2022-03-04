@@ -7,12 +7,16 @@ var logger = require('morgan');
 var micsRouter = require('./routes/microphones');
 var usersRouter = require('./routes/users');
 
-var app = express();
+
 
 const dotenv = require('dotenv').config()
 const {errorHandler} = require('./middleware/errorMiddleware')
 const port = process.env.PORT || 5000
+const colors = require('colors')
+const connectDB = require('./config/db')
 
+connectDB()
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
