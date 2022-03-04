@@ -22,20 +22,20 @@ const micSchema = mongoose.Schema({
         required: true
     },
     specs: {
-        FrequencyRange: {
+        frequencyRange: {
             low: Number,
             high: Number
         },
-        MaxSpl: Number,
-        SNRatio: Number,
-        Sensitivity: Number,
+        maxSpl: Number,
+        sNRatio: Number,
+        sensitivity: Number,
         distortion: {
             type: Number,
             min: 0,
             max: 1
         },
         polarPatterns: {
-            omidirectional: {
+            omnidirectional: {
                 type: Boolean,
                 default: null 
             },

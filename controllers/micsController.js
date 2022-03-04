@@ -22,10 +22,34 @@ const getMic = asyncHandler(async (req, res) => {
 const setMic = asyncHandler( 
     async (req, res) => {
 
-    // const mic = await Mic.create({
-    //     name: req.body.name
-    // })
-    res.status(200).json();
+    const mic = await Mic.create({
+        name: req.body.name,
+        manufactor: req.body.manufactor,
+        year: req.body.year,
+        technology: req.body.technology,
+        preamp: req.body.preamp,
+        specs: {
+            frequencyRange: {
+                low: req.body.specs.frequencyRange.low,
+                high: req.body.specs.frequencyRange.high,
+            },
+            maxSpl: req.body.specs.maxSpl,
+            sNRatio: req.body.specs.sNRatio,
+            sensitivity: req.body.specs.sensitivity,
+            distortion: req.body.specs.distortion,
+            polarPatterns: {
+                omnidirectional: req.body.specs.polarPatterns.omnidirectional,
+                cardioid: req.body.specs.polarPatterns.cardioid,
+                superCardioid: req.body.specs.polarPatterns.superCardioid,
+                hyperCardioid: req.body.specs.polarPatterns.hyperCardioid,
+                figure8: req.body.specs.polarPatterns.figure8,
+                shotgun: req.body.specs.polarPatterns.shotgun
+            }
+        },
+        image: req.body.image,
+        rating: req.body.rating,
+    })
+    res.status(200).json(mic);
 })
 
 // @desc Update Mic from ID
