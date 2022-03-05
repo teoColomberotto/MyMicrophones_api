@@ -117,12 +117,12 @@ const updateMic = asyncHandler(async (req, res, next) => {
         return res.status(401).send('User not authorized')
     }
 
-    // try {
+    try {
     const updatedMic = await Mic.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).set('Location', `${config.baseUrl}/microphones/${updatedMic._id}`).send(updatedMic);
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    } catch (error) {
+        console.log(error)
+    }
 
 })
 
@@ -256,9 +256,6 @@ const loadMicFromParamsMiddleware = (req, res, next) => {
         next();
     });
 }
-
-
-
 
 module.exports = {
     getMics,

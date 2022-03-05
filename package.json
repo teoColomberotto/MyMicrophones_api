@@ -5,10 +5,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "server": "nodemon backend/app.js",
-    "test": "mocha --timeout 10000"
+    "test": "mocha test/**/*.spec.js --recursive --timeout 60000 --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^4.3.6",
     "colors": "^1.4.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -20,8 +21,10 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^8.4.0",
     "mongoose": "^6.2.4",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
     "chai-http": "^4.3.0",

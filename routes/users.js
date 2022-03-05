@@ -6,9 +6,9 @@ const { registerUser, loginUser, getUser } = require('../controllers/userControl
 const { userRequestSchema } = require('../middleware/validators/requestsSchemas');
 const { idRequestSchema } = require('../middleware/validators/requestsSchemas');
 const {validateRequest} = require('../middleware/validators/requestValidator')
-const {authenticate} = require('../middleware/auth/authMiddleware')
+const {authenticate, authorize} = require('../middleware/auth/authMiddleware')
 
-router.get('/me', authenticate, getUser)
+router.get('/me', authenticate, authorize('user', 'admin'), getUser)
 
 router.post('/', userRequestSchema, validateRequest, registerUser)
 

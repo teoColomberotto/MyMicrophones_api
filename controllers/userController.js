@@ -5,7 +5,7 @@ const User = require('../models/userModel')
 const utils = require('../middleware/utils');
 const config = require('../config/config');
 
-const {checkIfAdmin} = require('../middleware/auth/authMiddleware');
+const { checkIfAdmin } = require('../middleware/auth/authMiddleware');
 
 /**
  * @desc Log in a user
@@ -79,7 +79,7 @@ const registerUser = asyncHandler(async (req, res) => {
  */
 const getUser = asyncHandler(async (req, res) => {
     console.log(req.user)
-    const {_id, name, email} = await User.findById(req.user.id)
+    const { _id, name, email } = await User.findById(req.user.id)
 
     res.status(200).set('Location', `${config.baseUrl}/users/${_id}`).json({
         _id: _id,
@@ -100,7 +100,7 @@ const getUser = asyncHandler(async (req, res) => {
 const generateToken = asyncHandler(async (id) => {
     const payload = {
         expiresIn: '30d',
-        userId: id.toString(), 
+        userId: id.toString(),
         roles: await checkIfAdmin(id),
     };
     return jwt.sign(payload, config.secretKey);
