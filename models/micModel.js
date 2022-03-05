@@ -81,6 +81,11 @@ const micSchema = mongoose.Schema({
         },
         default: null
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
 
 
 }, {
