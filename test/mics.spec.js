@@ -1,5 +1,4 @@
 process.env.NODE_ENV = 'test';
-const { MongoMemoryServer } = require('mongodb-memory-server');
 const { expect } = require('chai');
 const { cleanUpDatabase, generateAdminValidJwt, generateUserValidJwt } = require('./utils');
 const mongoose = require('mongoose');
@@ -16,33 +15,13 @@ const user = new User({
     email: "testmail@gmail.com",
 });
 
-// beforeEach(async () => {
-//     console.log("start")
-//     dbman.start();
-// });
-// afterEach(async () => {
-//     dbman.stop()
-// });
-
-
-
-// describe('GET /microphones', function() {
-
-
-// })
-
-let mongoServer;
-const opts = { }
 
 before(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    const mongoUri = mongoServer.getUri();
-    await mongoose.connect(mongoUri, opts);
+    dbman.start()
 });
 
 after(async () => {
-    await mongoose.disconnect();
-    await mongoServer.stop();
+    dbman.stop()
 });
 
 describe('...', () => {
