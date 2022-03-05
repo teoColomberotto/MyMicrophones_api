@@ -14,8 +14,8 @@ router.get('/:id', idRequestSchema, validateRequest, loadMicFromParamsMiddleware
 
 router.post('/', authenticate, micRequestSchema, validateRequest, setMic) 
 
-router.patch('/:id', authenticate, idRequestSchema, micRequestSchema, validateRequest, loadMicFromParamsMiddleware, updateMic) 
+router.patch('/:id', authenticate, authorize('user', 'admin'), idRequestSchema, micRequestSchema, validateRequest, loadMicFromParamsMiddleware, updateMic) 
 
-router.delete('/:id', authenticate, idRequestSchema, validateRequest, loadMicFromParamsMiddleware, deleteMic)
+router.delete('/:id', authenticate, authorize('user', 'admin'), idRequestSchema, validateRequest, loadMicFromParamsMiddleware, deleteMic)
 
 module.exports = router;

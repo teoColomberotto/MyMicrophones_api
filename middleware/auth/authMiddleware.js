@@ -48,19 +48,23 @@ const authenticate = asyncHandler(async (req, res, next) => {
  * @desc Check if a user is authorized
  * @param {*} requiredRole
  */
-const authorize = (requiredRole) => {
+const authorize = (...requiredRoles) => {
     // Create an return an authorization middleware. The required permission
     // will be available in the returned function because it is a closure.
     return function authorizationMiddleware(req, res, next) {
-        console.log(req.user.roles); //print role
         if (!req.user.roles) {
             // The user is not authenticated or has no permissions.
-            return res.sendStatus(403)
+            return res.status(403).send('User not authenticated')
         }
-        const authorized = req.user.roles.includes(requiredRole);
+        let authorized = false;
+        req.user.roles.forEach(role => {
+            if (requiredRoles.includes(role)) {
+                authorized = true;
+            }
+        });
         if (!authorized) {
             // The user is authenticated but does not have the required role.
-            return res.sendStatus(403)
+            return res.status(403).send('User does not have the required role')
         }
         // The user is authorized.
         next();

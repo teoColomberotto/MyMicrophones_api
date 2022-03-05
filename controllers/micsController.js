@@ -64,8 +64,8 @@ const getMic = asyncHandler(async (req, res, next) => {
 const setMic = asyncHandler(
     async (req, res) => {
 
-    
-        
+
+
         const mic = await Mic.create({
             name: req.body.name,
             manufactor: req.body.manufactor,
@@ -109,20 +109,20 @@ const setMic = asyncHandler(
 const updateMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.findById(req.params.id);
     const user = await User.findById(req.user.id);
-    if(!user) {
-        res.status(401).send('User not found')
+    if (!user) {
+        return res.status(401).send('User not found')
     }
 
-    if(mic.user.toString() != user.id && checkIfAdmin(user) !== 'admin') {
-        res.status(401).send('User not authorized')
+    if (mic.user.toString() != user.id && checkIfAdmin(user) !== 'admin') {
+        return res.status(401).send('User not authorized')
     }
 
-    try {
-        const updatedMic = await Mic.findByIdAndUpdate(req.params.id, req.body);
-        res.status(200).set('Location', `${config.baseUrl}/microphones/${updatedMic._id}`).send(updatedMic);
-    } catch (error) {
-        
-    }
+    // try {
+    const updatedMic = await Mic.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).set('Location', `${config.baseUrl}/microphones/${updatedMic._id}`).send(updatedMic);
+    // } catch (error) {
+    //     console.log(error)
+    // }
 
 })
 
@@ -135,29 +135,20 @@ const updateMic = asyncHandler(async (req, res, next) => {
 const deleteMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.findById(req.params.id);
     const user = await User.findById(req.user.id);
-    if(!user) {
-        res.status(401).send('User not found')
+    if (!user) {
+        return res.status(401).send('User not found')
     }
 
-    if(mic.user.toString() != user.id && checkIfAdmin(user) !== 'admin') {
-        res.status(401).send('User not authorized')
+    if (mic.user.toString() != user.id && checkIfAdmin(user) !== 'admin') {
+        return res.status(401).send('User not authorized')
     }
-
-//BUG WITH AUTH 2 CHECK
 
     try {
-        Mic.findByIdAndDelete(req.params.id)
-        res.status(204).json({ message: `microphone with id ${req.params.id} delated` });
+        await mic.remove()
+        res.status(200).json({ id: req.params.id })
     } catch (error) {
-        
+        console.log(error)
     }
-
-    // req.mic.remove(function(err) {
-    //     if (err) {
-    //         return next(err);
-    //     }
-    //     res.status(204).json({ message: `microphone with id ${req.params.id} delated` });
-    // });
 })
 
 
@@ -229,10 +220,10 @@ function queryMics(req) {
         });
     } else if (req.query.polarPatterns) {
         query = query.where(`specs.polarPatterns.${req.query.polarPatterns}`).equals(true);
-    }   
+    }
 
     if (!isNaN(req.query.rating)) {
-        query = query.where('rating').lt(req.query.rating +1);
+        query = query.where('rating').lt(req.query.rating + 1);
     }
     return query;
 };
