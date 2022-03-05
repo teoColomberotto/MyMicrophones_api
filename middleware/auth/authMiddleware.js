@@ -4,6 +4,11 @@ const User = require('../../models/userModel')
 const utils = require('../utils');
 const config = require('../../config/config');
 
+
+/**
+ * @desc Authenticate a user
+ * @param {*} req.header
+ */
 const authenticate = asyncHandler(async (req, res, next) => {
     // Ensure the header is present.
     const authorization = req.get('Authorization');
@@ -23,10 +28,11 @@ const authenticate = asyncHandler(async (req, res, next) => {
         if (err) {
             return res.status(401).send('Your token is invalid or has expired');
         } else {
-            req.user = payload.userId;
+            req.user = {};
+            req.user.id = payload.userId;
             // Obtain the list of permissions from the "scope" claim.
-            const scope = payload.scope;
-            req.userRoles = scope ? scope.split(' ') : [];
+            const roles = payload.roles;
+            req.user.roles = roles ? roles.split(' ') : [];
 
             next(); 
         }
@@ -38,25 +44,34 @@ const authenticate = asyncHandler(async (req, res, next) => {
     }
 })
 
-const authorize = asyncHandler(async (requiredRole) => {
+/**
+ * @desc Check if a user is authorized
+ * @param {*} requiredRole
+ */
+const authorize = (requiredRole) => {
     // Create an return an authorization middleware. The required permission
     // will be available in the returned function because it is a closure.
     return function authorizationMiddleware(req, res, next) {
-        console.log(req.userRoles); //print role
-        if (!req.userRoles) {
+        console.log(req.user.roles); //print role
+        if (!req.user.roles) {
             // The user is not authenticated or has no permissions.
-            return res.sendStatus(403);
+            return res.sendStatus(403)
         }
-        const authorized = req.userRoles.includes(requiredRole);
+        const authorized = req.user.roles.includes(requiredRole);
         if (!authorized) {
             // The user is authenticated but does not have the required role.
-            return res.sendStatus(403);
+            return res.sendStatus(403)
         }
         // The user is authorized.
         next();
     };
-})
+}
 
+
+/**
+ * @desc Check if a User is an Admin
+ * @param {*} userId
+ */
 const checkIfAdmin = asyncHandler(async (userId) => {
     return User.findOne().where('_id').equals(userId).exec().then((existingUser) => {
         if (existingUser.isAdmin === true) {

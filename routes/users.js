@@ -10,7 +10,7 @@ const {authenticate} = require('../middleware/auth/authMiddleware')
 
 router.get('/me', authenticate, getUser)
 
-router.post('/',userRequestSchema, validateRequest, registerUser)
+router.post('/', userRequestSchema, validateRequest, registerUser)
 
 router.post('/login', loginUser)
 

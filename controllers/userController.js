@@ -7,6 +7,13 @@ const config = require('../config/config');
 
 const {checkIfAdmin} = require('../middleware/auth/authMiddleware');
 
+/**
+ * @desc Log in a user
+ * @route POST /users/login
+ * @param {*} req.email 
+ * @param {*} req.password
+ * @access Public
+ */
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
@@ -25,7 +32,11 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 })
 
-
+/**
+ * @desc Create a new user
+ * @route POST /users/
+ * @access Public
+ */
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
 
@@ -61,9 +72,21 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
-
+/**
+ * @desc Retrieve the authenticated user's data
+ * @route GET /users/me
+ * @access Private
+ */
 const getUser = asyncHandler(async (req, res) => {
-    res.json({ message: 'Get User data' })
+    console.log(req.user)
+    const {_id, name, email} = await User.findById(req.user.id)
+
+    res.status(200).set('Location', `${config.baseUrl}/users/${_id}`).json({
+        _id: _id,
+        name: name,
+        email: email,
+        roles: req.user.roles
+    });
 })
 
 
@@ -78,7 +101,7 @@ const generateToken = asyncHandler(async (id) => {
     const payload = {
         expiresIn: '30d',
         userId: id.toString(), 
-        scope: await checkIfAdmin(id),
+        roles: await checkIfAdmin(id),
     };
     return jwt.sign(payload, config.secretKey);
 })

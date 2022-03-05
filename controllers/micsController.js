@@ -1,14 +1,21 @@
 const asyncHandler = require('express-async-handler')
 const Mic = require('../models/micModel')
+const User = require('../models/userModel');
 const utils = require('../middleware/utils');
 const config = require('../config/config');
 const mongoose = require('mongoose');
 const { response } = require('../app');
+const { checkIfAdmin } = require('../middleware/auth/authMiddleware');
 const ObjectId = mongoose.Types.ObjectId;
 
-// @desc Get Mics list
-// @route GET /microphones
-// @access Private
+
+
+/**
+ * @desc Return a list of microphones
+ * @route GET /microphones
+ * @param A list of query params
+ * @access Public
+ */
 const getMics = asyncHandler(async (req, res) => {
     const countQuery = queryMics(req);
     countQuery.countDocuments(function (err, total) {
@@ -39,19 +46,26 @@ const getMics = asyncHandler(async (req, res) => {
 
 })
 
-// @desc Get Mic from ID
-// @route GET /microphones/:id
-// @access Private
+/**
+ * @desc Return a microphone
+ * @route GET /microphones/:id
+ * @param {*} id 
+ * @access Public
+ */
 const getMic = asyncHandler(async (req, res, next) => {
     res.status(200).send(req.mic)
 })
 
-// @desc Create a new Mic
-// @route POST /microphones
-// @access Private
+/**
+ * @desc Create a new microphone
+ * @route POST /microphones
+ * @access Private
+ */
 const setMic = asyncHandler(
     async (req, res) => {
 
+    
+        
         const mic = await Mic.create({
             name: req.body.name,
             manufactor: req.body.manufactor,
@@ -78,6 +92,7 @@ const setMic = asyncHandler(
             },
             image: req.body.image,
             rating: req.body.rating,
+            user: req.user.id,
         })
         res
             .status(200)
@@ -85,29 +100,64 @@ const setMic = asyncHandler(
             .send(mic);
     })
 
-// @desc Update Mic from ID
-// @route PATCH /microphones/:id
-// @access Private
+/**
+ * @desc Update a microphone
+ * @route PATCH /microphones/:id
+ * @param {*} id 
+ * @access Private
+ */
 const updateMic = asyncHandler(async (req, res, next) => {
+    const mic = await Mic.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+    if(!user) {
+        res.status(401).send('User not found')
+    }
+
+    if(mic.user.toString() != user.id && checkIfAdmin(user) !== 'admin') {
+        res.status(401).send('User not authorized')
+    }
+
     try {
-        const mic = await Mic.findByIdAndUpdate(req.params.id, req.body);
-        res.status(200).set('Location', `${config.baseUrl}/microphones/${mic._id}`).send(mic);
+        const updatedMic = await Mic.findByIdAndUpdate(req.params.id, req.body);
+        res.status(200).set('Location', `${config.baseUrl}/microphones/${updatedMic._id}`).send(updatedMic);
     } catch (error) {
         
     }
 
 })
 
-// @desc Delete mic from ID
-// @route DELETE /microphones/:id
-// @access Private
+/**
+ * @desc Delete a microphone
+ * @route DELETE /microphones/:id
+ * @param {*} id 
+ * @access Private
+ */
 const deleteMic = asyncHandler(async (req, res, next) => {
-    req.mic.remove(function(err) {
-        if (err) {
-            return next(err);
-        }
+    const mic = await Mic.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+    if(!user) {
+        res.status(401).send('User not found')
+    }
+
+    if(mic.user.toString() != user.id && checkIfAdmin(user) !== 'admin') {
+        res.status(401).send('User not authorized')
+    }
+
+//BUG WITH AUTH 2 CHECK
+
+    try {
+        Mic.findByIdAndDelete(req.params.id)
         res.status(204).json({ message: `microphone with id ${req.params.id} delated` });
-    });
+    } catch (error) {
+        
+    }
+
+    // req.mic.remove(function(err) {
+    //     if (err) {
+    //         return next(err);
+    //     }
+    //     res.status(204).json({ message: `microphone with id ${req.params.id} delated` });
+    // });
 })
 
 
