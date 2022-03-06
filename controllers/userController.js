@@ -100,11 +100,10 @@ const getUser = asyncHandler(async (req, res) => {
  */
 const generateToken = asyncHandler(async (id) => {
     const payload = {
-        expiresIn: '30d',
         userId: id.toString(),
         roles: await checkIfAdmin(id),
     };
-    return jwt.sign(payload, config.secretKey);
+    return jwt.sign(payload, { expiresIn: '0' }, config.secretKey);
 });
 
 module.exports = {

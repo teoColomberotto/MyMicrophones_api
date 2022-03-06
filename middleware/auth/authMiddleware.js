@@ -18,9 +18,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
     // Check that the header has the correct format.
     const match = authorization.match(/^Bearer (.+)$/);
     if (!match) {
-        return res
-            .status(401)
-            .send('Authorization header is not a bearer token');
+        return res.status(401).send('Authorization header is not a bearer token');
     }
 
     // Extract and verify the JWT.

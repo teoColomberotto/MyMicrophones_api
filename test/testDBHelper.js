@@ -35,10 +35,10 @@ class DBManager {
     }
 
     // Remove all documents from the entire database - useful between tests
-    cleanup() {
-        return Promise.all(
-            COLLECTIONS.map((c) => this.db.collection(c).deleteMany({})),
-        );
+    async cleanup() {
+        // return Promise.all(COLLECTIONS.map((c) => this.db.collection(c).deleteMany({})));
+        await this.db.collection('users').deleteMany({});
+        await this.db.collection('mics').deleteMany({});
     }
 }
 

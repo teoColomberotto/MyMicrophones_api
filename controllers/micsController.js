@@ -4,7 +4,6 @@ const Mic = require('../models/micModel');
 const User = require('../models/userModel');
 const utils = require('../middleware/utils');
 const config = require('../config/config');
-const { response } = require('../app');
 const { checkIfAdmin } = require('../middleware/auth/authMiddleware');
 
 const { ObjectId } = mongoose.Types;
@@ -32,11 +31,10 @@ const getMics = asyncHandler(async (req, res, next) => {
 
         // add the link header to the response
         utils.addLinkHeader('microphones', page, pageSize, total, res);
-
         // execute the query
-        query.sort({ question: 1 }).exec(function (mics) {
-            if (err) {
-                return next(err);
+        query.exec(function (queryErr, mics) {
+            if (queryErr) {
+                return next(queryErr);
             }
             res.status(200).send(mics);
         });
@@ -87,9 +85,7 @@ const setMic = asyncHandler(async (req, res) => {
         rating: req.body.rating,
         user: req.user.id,
     });
-    res.status(200)
-        .set('Location', `${config.baseUrl}/microphones/${mic._id}`)
-        .send(mic);
+    res.status(201).set('Location', `${config.baseUrl}/microphones/${mic._id}`).send(mic);
 });
 
 /**
@@ -100,22 +96,21 @@ const setMic = asyncHandler(async (req, res) => {
  */
 const updateMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.findById(req.params.id);
-    const user = await User.findById(req.user.id);
-    if (!user) {
+    const userInfo = await User.findById(req.user.id);
+    if (!userInfo) {
         return res.status(401).send('User not found');
     }
 
-    if (mic.user.toString() !== user.id && checkIfAdmin(user) !== 'admin') {
+    if (mic.user.toString() !== userInfo.id && (await checkIfAdmin(userInfo.id)) !== 'admin') {
         return res.status(401).send('User not authorized');
     }
-
-    try {
-        const updatedMic = await Mic.findByIdAndUpdate(req.params.id, req.body);
-        res.status(200)
-            .set('Location', `${config.baseUrl}/microphones/${updatedMic._id}`)
-            .send(updatedMic);
-    } catch (error) {
-        console.log(error);
+    if (mic.user.toString() === userInfo.id || (await checkIfAdmin(userInfo.id)) === 'admin') {
+        try {
+            const updatedMic = await Mic.findOneAndUpdate({ _id: req.params.id }, req.body, { returnDocument: 'after' });
+            res.status(200).set('Location', `${config.baseUrl}/microphones/${updatedMic._id}`).send(updatedMic);
+        } catch (error) {
+            console.log(error);
+        }
     }
 });
 
@@ -127,20 +122,21 @@ const updateMic = asyncHandler(async (req, res, next) => {
  */
 const deleteMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.findById(req.params.id);
-    const user = await User.findById(req.user.id);
-    if (!user) {
+    const userInfo = await User.findById(req.user.id);
+    if (!userInfo) {
         return res.status(401).send('User not found');
     }
 
-    if (mic.user.toString() !== user.id && checkIfAdmin(user) !== 'admin') {
+    if (mic.user.toString() !== userInfo.id && (await checkIfAdmin(userInfo.id)) !== 'admin') {
         return res.status(401).send('User not authorized');
     }
-
-    try {
-        await mic.remove();
-        res.status(200).json({ id: req.params.id });
-    } catch (error) {
-        console.log(error);
+    if (mic.user.toString() === userInfo.id || (await checkIfAdmin(userInfo.id)) === 'admin') {
+        try {
+            await mic.remove();
+            res.status(200).json({ id: req.params.id });
+        } catch (error) {
+            console.log(error);
+        }
     }
 });
 
@@ -214,9 +210,7 @@ function queryMics(req) {
             query = query.where(`specs.polarPatterns.${pattern}`).equals(true);
         });
     } else if (req.query.polarPatterns) {
-        query = query
-            .where(`specs.polarPatterns.${req.query.polarPatterns}`)
-            .equals(true);
+        query = query.where(`specs.polarPatterns.${req.query.polarPatterns}`).equals(true);
     }
 
     if (!isNaN(req.query.rating)) {
@@ -245,7 +239,8 @@ const loadMicFromParamsMiddleware = (req, res, next) => {
     query.exec(function (err, mic) {
         if (err) {
             return next(err);
-        } if (!mic) {
+        }
+        if (!mic) {
             return micNotFound(res, micId);
         }
 
