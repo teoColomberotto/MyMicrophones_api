@@ -69,8 +69,7 @@ const micSchema = mongoose.Schema(
         },
         image: {
             type: String,
-            default:
-                'https://toppng.com/uploads/preview/mic-icon-11553430296usfhy8bwwf.png',
+            default: 'https://toppng.com/uploads/preview/mic-icon-11553430296usfhy8bwwf.png',
         },
         rating: {
             type: Number,
