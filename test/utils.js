@@ -1,13 +1,7 @@
-const Mic =  require('../models/micModel')
 const jwt = require('jsonwebtoken');
-const config = require('../config/config')
-const asyncHandler = require('express-async-handler')
-
-// const cleanUpDB = asyncHandler(async () => {
-//     await Promise.all([
-//         Mic.deleteMany(),
-//     ]);
-// });
+const asyncHandler = require('express-async-handler');
+const Mic = require('../models/micModel');
+const config = require('../config/config');
 
 const generateAdminValidJwt = asyncHandler(async (user) => {
     const payload = {
@@ -23,7 +17,7 @@ const generateAdminValidJwt = asyncHandler(async (user) => {
             resolve(token);
         });
     });
-})
+});
 
 const generateUserValidJwt = asyncHandler(async (user) => {
     const payload = {
@@ -39,10 +33,10 @@ const generateUserValidJwt = asyncHandler(async (user) => {
             resolve(token);
         });
     });
-})
+});
 
 module.exports = [
     // cleanUpDB,
     generateAdminValidJwt,
     generateUserValidJwt,
-]
+];

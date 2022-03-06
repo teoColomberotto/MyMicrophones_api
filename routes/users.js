@@ -1,17 +1,31 @@
 const { Router } = require('express');
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-const { registerUser, loginUser, getUser } = require('../controllers/userController')
-const { userRequestSchema } = require('../middleware/validators/requestsSchemas');
-const { idRequestSchema } = require('../middleware/validators/requestsSchemas');
-const {validateRequest} = require('../middleware/validators/requestValidator')
-const {authenticate, authorize} = require('../middleware/auth/authMiddleware')
+const router = express.Router();
 
-router.get('/me', authenticate, authorize('user', 'admin'), getUser)
+const {
+    registerUser,
+    loginUser,
+    getUser,
+} = require('../controllers/userController');
+const {
+    userRequestSchema,
+} = require('../middleware/validations/requestsSchemas');
+const {
+    idRequestSchema,
+} = require('../middleware/validations/requestsSchemas');
+const {
+    validateRequest,
+} = require('../middleware/validations/requestValidator');
+const {
+    authenticate,
+    authorize,
+} = require('../middleware/auth/authMiddleware');
 
-router.post('/', userRequestSchema, validateRequest, registerUser)
+router.get('/me', authenticate, authorize('user', 'admin'), getUser);
 
-router.post('/login', loginUser)
+router.post('/', userRequestSchema, validateRequest, registerUser);
+
+router.post('/login', loginUser);
 
 module.exports = router;

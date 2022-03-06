@@ -1,16 +1,16 @@
-const { baseUrl } = require('../config/config');
 const formatLinkHeader = require('format-link-header');
+const { baseUrl } = require('../config/config');
 
 /**
  * Responds with 415 Unsupported Media Type if the request does not have the Content-Type application/json.
  */
 exports.requireJson = function (req, res, next) {
-    if (req.is("application/json")) {
+    if (req.is('application/json')) {
         return next();
     }
 
     const error = new Error(
-        "This resource only has an application/json representation"
+        'This resource only has an application/json representation',
     );
     error.status = 415; // 415 Unsupported Media Type
     next(error);
@@ -54,9 +54,12 @@ exports.addLinkHeader = function (resourceHref, page, pageSize, total, res) {
 
     // Add first & prev links if current page is not the first one
     if (page > 1) {
-        links.first = { rel: "first", url: `${url}?page=1&pageSize=${pageSize}` };
+        links.first = {
+            rel: 'first',
+            url: `${url}?page=1&pageSize=${pageSize}`,
+        };
         links.prev = {
-            rel: "prev",
+            rel: 'prev',
             url: `${url}?page=${page - 1}&pageSize=${pageSize}`,
         };
     }
@@ -64,11 +67,11 @@ exports.addLinkHeader = function (resourceHref, page, pageSize, total, res) {
     // Add next & last links if current page is not the last one
     if (page < maxPage) {
         links.next = {
-            rel: "next",
+            rel: 'next',
             url: `${url}?page=${page + 1}&pageSize=${pageSize}`,
         };
         links.last = {
-            rel: "last",
+            rel: 'last',
             url: `${url}?page=${maxPage}&pageSize=${pageSize}`,
         };
     }
@@ -76,6 +79,6 @@ exports.addLinkHeader = function (resourceHref, page, pageSize, total, res) {
     // If there are any links (i.e. if there is more than one page),
     // add the Link header to the response
     if (Object.keys(links).length >= 1) {
-        res.set("Link", formatLinkHeader(links));
+        res.set('Link', formatLinkHeader(links));
     }
 };
