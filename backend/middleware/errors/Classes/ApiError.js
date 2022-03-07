@@ -39,7 +39,51 @@ class ApiError {
     }
 
     static badRequest(options, ext) {
-        return new ApiError(options, ext);
+        return new ApiError(
+            {
+                status: 400,
+                title: options.title,
+                detail: options.detail,
+                instance: options.instance,
+            },
+            ext,
+        );
+    }
+
+    static unauthorized(options, ext) {
+        return new ApiError(
+            {
+                status: 401,
+                title: options.title,
+                detail: options.detail,
+                instance: options.instance,
+            },
+            ext,
+        );
+    }
+
+    static forbidden(options, ext) {
+        return new ApiError(
+            {
+                status: 403,
+                title: options.title,
+                detail: options.detail,
+                instance: options.instance,
+            },
+            ext,
+        );
+    }
+
+    static notfound(options, ext) {
+        return new ApiError(
+            {
+                status: 404,
+                title: options.title,
+                detail: options.detail,
+                instance: options.instance,
+            },
+            ext,
+        );
     }
 }
 
