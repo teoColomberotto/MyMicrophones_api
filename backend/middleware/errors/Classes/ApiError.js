@@ -1,7 +1,6 @@
 const url = require('url');
-const Extension = require('./ApiErrorExtension');
 const statusCodes = require('../statuscodes');
-
+const { ApiErrorExtension } = require('./ApiErrorExtension');
 /**
  * A problem document according to RFC 7807
  */
@@ -17,66 +16,33 @@ class ApiError {
      * @return {{type: string, title: string}}
      */
     constructor(options, extension) {
-        const { detail } = options.detail;
-        const { instance } = options.instance;
-        const { title } = options.title;
-        const { status } = options.status;
-
-        if (instance) {
-            url.parse(instance);
+        this.detail = options.detail;
+        this.instance = options.instance;
+        this.title = options.title;
+        this.status = options.status;
+        if (this.instance) {
+            url.parse(this.instance);
         }
 
-        const result = {
-            title,
-            detail,
-            instance,
-            status,
-        };
-
-        if (extension) {
+        if (extension instanceof ApiErrorExtension) {
+            this.extension = {};
             // eslint-disable-next-line no-restricted-syntax
             for (const propertyName in extension.extensionProperties) {
                 // eslint-disable-next-line max-len
                 // eslint-disable-next-line no-prototype-builtins
                 if (extension.extensionProperties.hasOwnProperty(propertyName)) {
                     // eslint-disable-next-line max-len
-                    result[propertyName] = extension.extensionProperties[propertyName];
+                    this.extension[propertyName] = extension.extensionProperties[propertyName];
                 }
             }
         }
+    }
 
-        // eslint-disable-next-line no-constructor-return
-        return result;
+    static badRequest(options, ext) {
+        return new ApiError(options, ext);
     }
 }
 
-const BadRequestProblem = function () {
-    return new ApiError({ status: 400 });
-};
-
-const UnauthorizedProblem = function () {
-    return new ApiError({ status: 401 });
-};
-
-const ForbiddenProblem = function () {
-    return new ApiError({ status: 403 });
-};
-
-const NotFoundProblem = function () {
-    return new ApiError({ status: 404 });
-};
-
-const InternalServerErrorProblem = function () {
-    return new ApiError({ status: 500 });
-};
-
 module.exports = {
     ApiError,
-    StatusCodeProblems: {
-        BadRequestProblem,
-        UnauthorizedProblem,
-        ForbiddenProblem,
-        NotFoundProblem,
-        InternalServerErrorProblem,
-    },
 };

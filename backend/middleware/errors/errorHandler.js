@@ -1,12 +1,20 @@
+const { ApiError } = require('./Classes/ApiError');
+
 const errorHandler = (err, req, res, next) => {
-    const statusCode = res.statusCode ? res.statusCode : 500;
+    //log the error if in prod
+    if (process.env.NODE_ENV === 'development') {
+        console.log('err: ', err, 'err class: ', err.toString());
+    }
+    if (err instanceof ApiError) {
+        res.status(err.status).json(err);
+        return;
+    }
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    res.status(statusCode);
-
-    res.json({
-        message: err.message,
-        stack: process.env.NODE_ENV === 'production' ? null : err.stack,
-    });
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 };
 
 module.exports = {

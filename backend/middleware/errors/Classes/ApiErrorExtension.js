@@ -1,7 +1,7 @@
 /**
  * An problem document extension according to RFC 7807
  */
-class Extension {
+class ApiErrorExtension {
     /**
      *
      * @param {Object} extension
@@ -10,3 +10,5 @@ class Extension {
         this.extensionProperties = extension;
     }
 }
+
+module.exports = { ApiErrorExtension };
