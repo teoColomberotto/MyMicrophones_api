@@ -5,14 +5,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
-const micsRouter = require('./routes/microphones');
-const usersRouter = require('./routes/users');
+const micsRouter = require('./backend/routes/microphones');
+const usersRouter = require('./backend/routes/users');
 
-const { errorHandler } = require('./middleware/errorMiddleware');
+const { errorHandler } = require('./backend/middleware/errorMiddleware');
 
 const port = process.env.PORT || 5000;
 
-const connectDB = require('./config/db');
+const connectDB = require('./backend/config/db');
 
 connectDB();
 const app = express();

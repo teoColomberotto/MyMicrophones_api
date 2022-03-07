@@ -11,7 +11,7 @@ const {
     generateMicList,
     generateMicBodyRequest,
 } = require('./utils');
-const app = require('../app');
+const app = require('../../app');
 const Mic = require('../models/micModel');
 const User = require('../models/userModel');
 const DBManager = require('./testDBHelper');
