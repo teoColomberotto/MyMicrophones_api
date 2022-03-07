@@ -18,17 +18,16 @@ const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-
     if (user && (await bcrypt.compare(password, user.password))) {
-        res.json({
+        res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
             token: await generateToken(user._id),
         });
     } else {
-        res.status(400);
-        throw new Error('Invalid credentials');
+        return res.status(400).send({ message: 'Invalid credentials' });
+        // throw new Error('Invalid credentials');
     }
 });
 
@@ -41,10 +40,10 @@ const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
     // check if user exists
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email: email });
     if (userExists) {
-        res.status(400);
-        throw new Error('User already exists');
+        return res.status(400).send({ error: 'This email adress is already used' });
+        // throw new Error('User already exists');
     }
 
     // hash password
@@ -58,7 +57,6 @@ const registerUser = asyncHandler(async (req, res) => {
         password: hashedPassword,
         isAdmin: false,
     });
-
     if (user) {
         res.status(201)
             .set('Location', `${config.baseUrl}/users/${user._id}`)
@@ -80,14 +78,13 @@ const registerUser = asyncHandler(async (req, res) => {
  * @access Private
  */
 const getUser = asyncHandler(async (req, res) => {
-    console.log(req.user);
-    const { _id, name, email } = await User.findById(req.user.id);
-
-    res.status(200).set('Location', `${config.baseUrl}/users/${_id}`).json({
-        _id: _id,
-        name: name,
-        email: email,
-        roles: req.user.roles,
+    const user = await User.findById(req.user.id);
+    const roles = await checkIfAdmin(user);
+    res.status(200).set('Location', `${config.baseUrl}/users/${user._id}`).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        roles: roles,
     });
 });
 
@@ -103,7 +100,7 @@ const generateToken = asyncHandler(async (id) => {
         userId: id.toString(),
         roles: await checkIfAdmin(id),
     };
-    return jwt.sign(payload, { expiresIn: '0' }, config.secretKey);
+    return jwt.sign(payload, config.secretKey, { expiresIn: '0' });
 });
 
 module.exports = {

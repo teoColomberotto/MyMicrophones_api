@@ -19,7 +19,7 @@ class DBManager {
                 dbName: 'mics_api_test',
             });
             this.db = this.connection.connection.db;
-            // console.log(`MongoDB Connected: ${this.connection.connection.host}`.cyan.underline)
+            console.log(`MongoDB Connected: ${this.connection.connection.host}`.cyan.underline);
         } catch (error) {
             console.log(error);
             process.exit(1);
@@ -28,7 +28,7 @@ class DBManager {
 
     // Close the connection and halt the mongo instance
     async stop() {
-        // console.log(`MongoDB disonnected:`.cyan.underline)
+        console.log('MongoDB disonnected:'.cyan.underline);
         await mongoose.disconnect();
         const stopServer = await this.server.stop();
         return stopServer;

@@ -12,12 +12,8 @@ const {
     generateMicBodyRequest,
 } = require('./utils');
 const app = require('../../app');
-const Mic = require('../models/micModel');
 const User = require('../models/userModel');
 const DBManager = require('./testDBHelper');
-const { db } = require('../models/userModel');
-const { updateMic } = require('../controllers/micsController');
-const { userRequestSchema } = require('../middleware/validations/requestsSchemas');
 
 const dbman = new DBManager();
 const user = new User({
@@ -66,7 +62,7 @@ describe('GET /microphones/', async () => {
 
         // eslint-disable-next-line no-plusplus
         for (let i = 0; i <= body.length - 1; i++) {
-            //check for required fields
+            // check for required fields
             expect(body[i], 'res.body[i]').to.include.all.keys(
                 '__v',
                 '_id',
@@ -172,6 +168,7 @@ describe('POST /microphones/', async () => {
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(201);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
+        expect(res.get('Location'), 'res.headers.Location').to.have.string(`/microphones/${res.body._id}`);
 
         // Check that the response body is an array.
         const { body } = res;
@@ -263,7 +260,7 @@ describe('PATCH /microphones/:id', async () => {
     beforeEach(async () => {
         const newUser = new User(user);
         newUser.isNew = true;
-        newUser.save();
+        await newUser.save();
     });
 
     it('should update an existing microphone', async () => {
@@ -278,6 +275,7 @@ describe('PATCH /microphones/:id', async () => {
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(200);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
+        expect(res.get('Location'), 'res.headers.Location').to.have.string(`/microphones/${res.body._id}`);
 
         // Check that the response body is an array.
         const { body } = res;
@@ -322,13 +320,13 @@ describe('PATCH /microphones/:id', async () => {
     it('should not authorize to update a document from another user', async () => {
         const newUser2 = new User(user2);
         newUser2.isNew = true;
-        newUser2.save();
+        await newUser2.save();
         const micBody = await generateMicBodyRequest();
         const mic = await generateMicList(0, user._id);
         const micId = mic._id.toString();
         const token = await generateUserValidJwt(user2);
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -336,7 +334,7 @@ describe('PATCH /microphones/:id', async () => {
     it('should authorize an admin to update a document from another user', async () => {
         const newAdmin = new User(admin);
         newAdmin.isNew = true;
-        newAdmin.save();
+        await newAdmin.save();
         const micBody = await generateMicBodyRequest();
         const mic = await generateMicList(0, user._id);
         const micId = mic._id.toString();
@@ -347,6 +345,7 @@ describe('PATCH /microphones/:id', async () => {
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(200);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
+        expect(res.get('Location'), 'res.headers.Location').to.have.string(`/microphones/${res.body._id}`);
 
         // Check that the response body is an array.
         const { body } = res;
@@ -395,7 +394,7 @@ describe('PATCH /microphones/:id', async () => {
         const updatedMic = micBody;
         updatedMic.name = 'updatedMic';
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -409,7 +408,7 @@ describe('PATCH /microphones/:id', async () => {
         let token = await generateUserValidJwt(user);
         token += 'invalid';
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -422,7 +421,7 @@ describe('PATCH /microphones/:id', async () => {
         updatedMic.name = 'updatedMic';
         const token = await generateUserValidJwt(user);
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Beareeer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -433,7 +432,7 @@ describe('PATCH /microphones/:id', async () => {
         const micId = mic._id.toString();
         const token = await generateExpiredJwt(user);
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -450,7 +449,7 @@ describe('DELETE /microphones/:id', async () => {
     beforeEach(async () => {
         const newUser = new User(user);
         newUser.isNew = true;
-        newUser.save();
+        await newUser.save();
     });
 
     it('should delete an existing microphone', async () => {
@@ -467,12 +466,12 @@ describe('DELETE /microphones/:id', async () => {
     it('should not authorize to delete a document from another user', async () => {
         const newUser2 = new User(user2);
         newUser2.isNew = true;
-        newUser2.save();
+        await newUser2.save();
         const mic = await generateMicList(0, user._id);
         const micId = mic._id.toString();
         const token = await generateUserValidJwt(user2);
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -480,7 +479,7 @@ describe('DELETE /microphones/:id', async () => {
     it('should authorize an admin to update a document from another user', async () => {
         const newAdmin = new User(admin);
         newAdmin.isNew = true;
-        newAdmin.save();
+        await newAdmin.save();
         const mic = await generateMicList(0, user._id);
         const micId = mic._id.toString();
         const token = await generateAdminValidJwt(admin);
@@ -494,7 +493,7 @@ describe('DELETE /microphones/:id', async () => {
         const mic = await generateMicList(0, user._id);
         const micId = mic._id.toString();
         const res = await supertest(app).delete(`/microphones/${micId}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -505,7 +504,7 @@ describe('DELETE /microphones/:id', async () => {
         let token = await generateUserValidJwt(user);
         token += 'invalid';
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -515,7 +514,7 @@ describe('DELETE /microphones/:id', async () => {
         const micId = mic._id.toString();
         const token = await generateUserValidJwt(user);
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Beareeer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
@@ -525,7 +524,7 @@ describe('DELETE /microphones/:id', async () => {
         const micId = mic._id.toString();
         const token = await generateExpiredJwt(user);
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
-        //Check that the status and headers of the response are correct
+        // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
     });
