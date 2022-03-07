@@ -17,46 +17,30 @@ const { ObjectId } = mongoose.Types;
  * @access Public
  */
 const getMics = asyncHandler(async (req, res, next) => {
-    //test error handler
-    const ext = new ApiErrorExtension({
-        extensionParameter: 'test extension param 1',
-        extensionParameter2: 'test extension param 2',
+    const countQuery = queryMics(req);
+    countQuery.countDocuments(function (err, total) {
+        if (err) {
+            return next(err);
+        }
+
+        // prepare the initial database query from URL query parameters
+        let query = queryMics(req);
+        // parse pagination parameters from URL query parameters
+        const { page, pageSize } = utils.getPaginationParameters(req);
+
+        // apply pagination to query
+        query = query.skip((page - 1) * pageSize).limit(pageSize);
+
+        // add the link header to the response
+        utils.addLinkHeader('microphones', page, pageSize, total, res);
+        // execute the query
+        query.exec(function (queryErr, mics) {
+            if (queryErr) {
+                return next(queryErr);
+            }
+            res.status(200).send(mics);
+        });
     });
-    next(
-        ApiError.badRequest(
-            {
-                status: 400,
-                title: 'this is a test bad request message',
-                detail: 'this are the details of the error',
-                instance: 'test instance',
-            },
-            ext,
-        ),
-    );
-    // const countQuery = queryMics(req);
-    // countQuery.countDocuments(function (err, total) {
-    //     if (err) {
-    //         return next(err);
-    //     }
-
-    //     // prepare the initial database query from URL query parameters
-    //     let query = queryMics(req);
-    //     // parse pagination parameters from URL query parameters
-    //     const { page, pageSize } = utils.getPaginationParameters(req);
-
-    //     // apply pagination to query
-    //     query = query.skip((page - 1) * pageSize).limit(pageSize);
-
-    //     // add the link header to the response
-    //     utils.addLinkHeader('microphones', page, pageSize, total, res);
-    //     // execute the query
-    //     query.exec(function (queryErr, mics) {
-    //         if (queryErr) {
-    //             return next(queryErr);
-    //         }
-    //         res.status(200).send(mics);
-    //     });
-    // });
 });
 
 /**
