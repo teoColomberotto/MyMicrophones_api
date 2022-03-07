@@ -8,7 +8,7 @@ const dotenv = require('dotenv').config();
 const micsRouter = require('./backend/routes/microphones');
 const usersRouter = require('./backend/routes/users');
 
-const { errorHandler } = require('./backend/middleware/errorMiddleware');
+const { errorHandler } = require('./backend/middleware/errors/errorHandler');
 
 const port = process.env.PORT || 5000;
 
