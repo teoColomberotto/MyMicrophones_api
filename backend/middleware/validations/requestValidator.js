@@ -10,7 +10,6 @@ const validateRequest = (req, res, next) => {
             { status: 400, title: 'Bad Request', detail: 'Your request body or params are invalid', instance: req.baseUrl },
             errExt,
         );
-        // return next(new ApiError({ status: 400, title: 'reqeust validation error' }, { errExt }));
         return res.status(400).json(err);
     }
 

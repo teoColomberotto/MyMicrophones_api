@@ -7,7 +7,7 @@ const colors = require('colors');
 const dotenv = require('dotenv').config();
 const micsRouter = require('./backend/routes/microphones');
 const usersRouter = require('./backend/routes/users');
-
+const { swaggerDocs } = require('./backend/documentation/swagger');
 const { errorHandler } = require('./backend/middleware/errors/errorHandler');
 
 const port = process.env.PORT || 5000;
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/microphones', micsRouter);
 app.use('/users', usersRouter);
-
+swaggerDocs(app, process.env.PORT);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
