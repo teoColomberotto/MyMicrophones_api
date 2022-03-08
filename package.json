@@ -1,6 +1,6 @@
 {
-    "name": "create",
-    "version": "0.0.0",
+    "name": "mic_api",
+    "version": "0.0.1",
     "private": true,
     "scripts": {
         "start": "node ./backend/bin/www",
