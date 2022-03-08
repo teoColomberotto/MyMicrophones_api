@@ -58,7 +58,7 @@ const getMic = asyncHandler(async (req, res, next) => {
  * @route POST /microphones
  * @access Private
  */
-const setMic = asyncHandler(async (req, res) => {
+const setMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.create({
         name: req.body.name,
         manufactor: req.body.manufactor,
