@@ -69,3 +69,66 @@
  *      type: string
  *      description: the error instance
  */
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   UserRequestBody:
+ *    type: object
+ *    properties:
+ *           name:
+ *            type: string
+ *            description: the user name
+ *            example: John Doe
+ *           email:
+ *            type: string
+ *            description: the user email adress
+ *            example: usermail@gmail.com
+ *           password:
+ *            type: string
+ *            description: the user password
+ *            example: UserPassword1_
+ */
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   UserLoginRequestBody:
+ *    type: object
+ *    properties:
+ *           email:
+ *            type: string
+ *            description: the user email adress
+ *            example: usermail@gmail.com
+ *           password:
+ *            type: string
+ *            description: the user password
+ *            example: UserPassword1_
+ */
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   CreateUserResponse:
+ *    type: object
+ *    properties:
+ *           _id:
+ *            type: number
+ *            description: the user unique id
+ *            example: 507f1f77bcf86cd799439011
+ *           name:
+ *            type: string
+ *            description: the user name
+ *            example: John Doe
+ *           email:
+ *            type: string
+ *            description: the user email adress
+ *            example: usermail@gmail.com
+ *           token:
+ *            type: string
+ *            description: the user token for authentication
+ *            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzSW4iOiIzMGQiLCJ1c2VySWQiOiI2MjIzOWIwNDAzM2ExNTZmNmM4Mjc5NDAiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE2NDY1MDA2MTJ9.yvjKfYdxTGT5YJdBvnMRB4Li231XFiogu_JjEd0a1bk
+ */

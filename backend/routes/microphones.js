@@ -26,6 +26,7 @@ const { authenticate, authorize } = require('../middleware/auth/authMiddleware')
  *          $ref: '#/components/schemas/Microphone'
  */
 router.get('/', getMics);
+
 /**
  * @openapi
  * /microphones/{id}:
