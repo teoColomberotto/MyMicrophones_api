@@ -4,7 +4,32 @@ const { ObjectId } = mongoose.Types;
 const { Schema } = mongoose;
 
 /**
- * A simple user
+ * @openapi
+ * components:
+ *  schemas:
+ *   User:
+ *    type: object
+ *    required:
+ *     - name
+ *     - email
+ *     - password
+ *    properties:
+ *     name:
+ *      type: string
+ *      description: the user's name
+ *      example: John Doe
+ *     password:
+ *      type: string
+ *      description: the user's password
+ *      example: MyPassword1_
+ *     email:
+ *      type: string
+ *      description: the user's email adress
+ *      example: testmail@gmail.com
+ *     isAdmin:
+ *      type: boolean
+ *      description: an admin role identifier
+ *      default: false
  */
 const userSchema = new Schema(
     {
