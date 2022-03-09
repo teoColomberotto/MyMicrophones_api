@@ -224,7 +224,7 @@ describe('POST /microphones/', async () => {
         const res = await supertest(app).post('/microphones/').send(mic).set('Authorization', `Bearer ${token}`);
 
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
@@ -244,7 +244,7 @@ describe('POST /microphones/', async () => {
         const res = await supertest(app).post('/microphones/').send(mic).set('Authorization', `Bearer ${token}`);
 
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });
@@ -409,7 +409,7 @@ describe('PATCH /microphones/:id', async () => {
         token += 'invalid';
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
@@ -433,7 +433,7 @@ describe('PATCH /microphones/:id', async () => {
         const token = await generateExpiredJwt(user);
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });
@@ -505,7 +505,7 @@ describe('DELETE /microphones/:id', async () => {
         token += 'invalid';
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
@@ -525,7 +525,7 @@ describe('DELETE /microphones/:id', async () => {
         const token = await generateExpiredJwt(user);
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });

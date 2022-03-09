@@ -210,7 +210,7 @@ describe('GET /users/me', async () => {
         token += 'invalid';
         const res = await supertest(app).get('/users/me').set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
@@ -226,7 +226,7 @@ describe('GET /users/me', async () => {
         const token = await generateExpiredJwt(user);
         const res = await supertest(app).get('/users/me').set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
-        expect(res.status, 'res-status').to.equal(401);
+        expect(res.status, 'res-status').to.equal(400);
         expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });
