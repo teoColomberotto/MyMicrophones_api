@@ -100,11 +100,19 @@ const updateMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.findById(req.params.id);
     const userInfo = await User.findById(req.user.id);
     if (!userInfo) {
-        return res.status(401).send('User not found');
+        return next(
+            ApiError.notfound({ detail: 'User not found', instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}` }),
+        );
+        // return res.status(401).send('User not found');
     }
 
     if (mic.user.toString() !== userInfo.id && (await checkIfAdmin(userInfo.id)) !== 'admin') {
-        return res.status(401).send('User not authorized');
+        return next(
+            ApiError.unauthorized({
+                detail: 'user not authorized',
+                instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}`,
+            }),
+        );
     }
     if (mic.user.toString() === userInfo.id || (await checkIfAdmin(userInfo.id)) === 'admin') {
         try {
@@ -126,11 +134,18 @@ const deleteMic = asyncHandler(async (req, res, next) => {
     const mic = await Mic.findById(req.params.id);
     const userInfo = await User.findById(req.user.id);
     if (!userInfo) {
-        return res.status(401).send('User not found');
+        return next(
+            ApiError.notfound({ detail: 'User not found', instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}` }),
+        );
     }
 
     if (mic.user.toString() !== userInfo.id && (await checkIfAdmin(userInfo.id)) !== 'admin') {
-        return res.status(401).send('User not authorized');
+        return next(
+            ApiError.unauthorized({
+                detail: 'user not authorized',
+                instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}`,
+            }),
+        );
     }
     if (mic.user.toString() === userInfo.id || (await checkIfAdmin(userInfo.id)) === 'admin') {
         try {
@@ -148,7 +163,9 @@ const deleteMic = asyncHandler(async (req, res, next) => {
  * Responds with 404 Not Found and a message indicating that the microphone with the specified ID was not found.
  */
 function micNotFound(res, micId) {
-    return res.status(404).type('text').send(`No mic found with ID ${micId}`);
+    res.status(404).send(
+        ApiError.notfound({ detail: `no micorpohnes found with id: ${micId}`, instance: `/microphones/${micId}` }),
+    );
 }
 
 /**

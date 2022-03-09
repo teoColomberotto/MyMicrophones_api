@@ -202,7 +202,7 @@ describe('GET /users/me', async () => {
 
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an invalid token', async () => {
@@ -211,7 +211,7 @@ describe('GET /users/me', async () => {
         const res = await supertest(app).get('/users/me').set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit a non Barer token', async () => {
@@ -219,7 +219,7 @@ describe('GET /users/me', async () => {
         const res = await supertest(app).get('/users/me').set('Authorization', `Beareeer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an expired token', async () => {
@@ -227,6 +227,6 @@ describe('GET /users/me', async () => {
         const res = await supertest(app).get('/users/me').set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });

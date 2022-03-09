@@ -56,11 +56,11 @@ Clone the repository, by opening the command line and executing the following co
 
 The following environment variables can be set to customize the application's behavior:
 
-| Variable               | Default value                                                                                     | Description                     |
-| :--------------------- | :------------------------------------------------------------------------------------------------ | :------------------------------ |
-| `NODE_ENV` development | configuration of the working environment                                                          |
-| `PORT`                 | 3000                                                                                              | Port on which to listen to.     |
-| `MONGO_URL`            | mongodb+srv://username:password@teocluster.w10q2.mongodb.net/mics_api?retryWrites=true&w=majority | mongoDB Atlas configuration uri |
+| Variable               | Default value                                                                               | Description                     |
+| :--------------------- | :------------------------------------------------------------------------------------------ | :------------------------------ |
+| `NODE_ENV` development | configuration of the working environment                                                    |
+| `PORT`                 | 3000                                                                                        | Port on which to listen to.     |
+| `MONGO_URI`            | mongodb+srv://dbUser:1234@teocluster.w10q2.mongodb.net/mics_api?retryWrites=true&w=majority | mongoDB Atlas configuration uri |
 
 ## License
 

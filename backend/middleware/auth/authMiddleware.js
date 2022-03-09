@@ -1,45 +1,56 @@
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const User = require('../../models/userModel');
-const utils = require('../utils');
 const config = require('../../config/config');
+const { ApiError } = require('../errors/Classes/ApiError');
 
 /**
  * @desc Authenticate a user
  * @param {*} req.header
  */
 const authenticate = asyncHandler(async (req, res, next) => {
+    const err = new ApiError({
+        status: 401,
+        title: 'Bad Request',
+        detail: 'Authentication error',
+        instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}`,
+    });
+
     // Ensure the header is present.
     const authorization = req.get('Authorization');
     if (!authorization) {
-        return res.status(401).send('Authorization header is missing');
+        err.detail = 'Authorization header is missing';
+        return next(err);
     }
 
     // Check that the header has the correct format.
     const match = authorization.match(/^Bearer (.+)$/);
     if (!match) {
-        return res.status(401).send('Authorization header is not a bearer token');
+        err.detail = 'Authorization header is not a bearer token';
+        return next(err);
     }
 
     // Extract and verify the JWT.
     const token = match[1];
-    jwt.verify(token, config.secretKey, function (err, payload) {
-        if (err) {
-            return res.status(401).send('Your token is invalid or has expired');
+
+    // Check if no token
+    if (!token) {
+        err.detail = 'The token is missing';
+        return next(err);
+    }
+
+    jwt.verify(token, config.secretKey, function (errV, payload) {
+        if (errV) {
+            err.detail = 'Your token is invalid or has expired';
+            return next(err);
         }
         req.user = {};
         req.user.id = payload.userId;
         // Obtain the list of permissions from the "scope" claim.
         const { roles } = payload;
         req.user.roles = roles ? roles.split(' ') : [];
-
         next();
     });
-
-    // Check if no token
-    if (!token) {
-        return res.status(401).send('The token is missing');
-    }
 });
 
 /**
@@ -49,10 +60,17 @@ const authenticate = asyncHandler(async (req, res, next) => {
 const authorize = (...requiredRoles) => {
     // Create an return an authorization middleware. The required permission
     // will be available in the returned function because it is a closure.
+    const err = new ApiError({
+        status: 403,
+        title: 'Bad Request',
+        detail: 'Authentication error',
+        instance: 'User does not have the required role',
+    });
+
     return function authorizationMiddleware(req, res, next) {
         if (!req.user.roles) {
             // The user is not authenticated or has no permissions.
-            return res.status(403).send('User not authenticated');
+            return next(err);
         }
         let authorized = false;
         req.user.roles.forEach((role) => {
@@ -62,7 +80,7 @@ const authorize = (...requiredRoles) => {
         });
         if (!authorized) {
             // The user is authenticated but does not have the required role.
-            return res.status(403).send('User does not have the required role');
+            return next(err);
         }
         // The user is authorized.
         next();

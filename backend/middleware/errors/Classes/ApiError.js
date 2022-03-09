@@ -1,6 +1,6 @@
 const url = require('url');
-const statusCodes = require('../statuscodes');
 const { ApiErrorExtension } = require('./ApiErrorExtension');
+const statusCodes = require('../statuscodes');
 /**
  * A problem document according to RFC 7807
  */
@@ -16,10 +16,11 @@ class ApiError {
      * @return {{type: string, title: string}}
      */
     constructor(options, extension) {
+        this.status = options.status;
+        this.title = options.title;
         this.detail = options.detail;
         this.instance = options.instance;
-        this.title = options.title;
-        this.status = options.status;
+
         if (this.instance) {
             url.parse(this.instance);
         }
@@ -42,7 +43,7 @@ class ApiError {
         return new ApiError(
             {
                 status: 400,
-                title: options.title,
+                title: statusCodes[400],
                 detail: options.detail,
                 instance: options.instance,
             },
@@ -54,7 +55,7 @@ class ApiError {
         return new ApiError(
             {
                 status: 401,
-                title: options.title,
+                title: statusCodes[401],
                 detail: options.detail,
                 instance: options.instance,
             },
@@ -66,7 +67,7 @@ class ApiError {
         return new ApiError(
             {
                 status: 403,
-                title: options.title,
+                title: statusCodes[403],
                 detail: options.detail,
                 instance: options.instance,
             },
@@ -78,7 +79,7 @@ class ApiError {
         return new ApiError(
             {
                 status: 404,
-                title: options.title,
+                title: statusCodes[404],
                 detail: options.detail,
                 instance: options.instance,
             },

@@ -4,7 +4,8 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const utils = require('../middleware/utils');
 const config = require('../config/config');
-
+const { ApiError } = require('../middleware/errors/Classes/ApiError');
+const { ApiErrorExtension } = require('../middleware/errors/Classes/ApiErrorExtension');
 const { checkIfAdmin } = require('../middleware/auth/authMiddleware');
 
 /**
@@ -14,7 +15,7 @@ const { checkIfAdmin } = require('../middleware/auth/authMiddleware');
  * @param {*} req.password
  * @access Public
  */
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -26,7 +27,12 @@ const loginUser = asyncHandler(async (req, res) => {
             token: await generateToken(user._id),
         });
     } else {
-        return res.status(400).send({ message: 'Invalid credentials' });
+        return next(
+            ApiError.badRequest({
+                detail: 'invalid credentials',
+                instance: `${req.baseUrl}/login`,
+            }),
+        );
         // throw new Error('Invalid credentials');
     }
 });
@@ -36,13 +42,18 @@ const loginUser = asyncHandler(async (req, res) => {
  * @route POST /users/
  * @access Public
  */
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res, next) => {
     const { name, email, password } = req.body;
 
     // check if user exists
     const userExists = await User.findOne({ email: email });
     if (userExists) {
-        return res.status(400).send({ error: 'This email adress is already used' });
+        return next(
+            ApiError.badRequest({
+                detail: 'this email adress is aleredy used',
+                instance: `${req.baseUrl}/`,
+            }),
+        );
         // throw new Error('User already exists');
     }
 
@@ -67,8 +78,12 @@ const registerUser = asyncHandler(async (req, res) => {
                 token: await generateToken(user._id),
             });
     } else {
-        res.status(400);
-        throw new Error('Invalid user data');
+        return next(
+            ApiError.badRequest({
+                detail: 'invalid data',
+                instance: `${req.baseUrl}/`,
+            }),
+        );
     }
 });
 

@@ -215,7 +215,7 @@ describe('POST /microphones/', async () => {
 
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
     it('should not accept a request whit an invalid token', async () => {
         let token = await generateUserValidJwt(user);
@@ -225,7 +225,7 @@ describe('POST /microphones/', async () => {
 
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit a non Barer token', async () => {
@@ -235,7 +235,7 @@ describe('POST /microphones/', async () => {
 
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an expired token', async () => {
@@ -245,7 +245,7 @@ describe('POST /microphones/', async () => {
 
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });
 
@@ -328,7 +328,7 @@ describe('PATCH /microphones/:id', async () => {
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should authorize an admin to update a document from another user', async () => {
@@ -396,7 +396,7 @@ describe('PATCH /microphones/:id', async () => {
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an invalid token', async () => {
@@ -410,7 +410,7 @@ describe('PATCH /microphones/:id', async () => {
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit a non Barer token', async () => {
@@ -423,7 +423,7 @@ describe('PATCH /microphones/:id', async () => {
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Beareeer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an expired token', async () => {
@@ -434,7 +434,7 @@ describe('PATCH /microphones/:id', async () => {
         const res = await supertest(app).patch(`/microphones/${micId}`).send(micBody).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });
 
@@ -473,7 +473,7 @@ describe('DELETE /microphones/:id', async () => {
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should authorize an admin to update a document from another user', async () => {
@@ -495,7 +495,7 @@ describe('DELETE /microphones/:id', async () => {
         const res = await supertest(app).delete(`/microphones/${micId}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an invalid token', async () => {
@@ -506,7 +506,7 @@ describe('DELETE /microphones/:id', async () => {
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit a non Barer token', async () => {
@@ -516,7 +516,7 @@ describe('DELETE /microphones/:id', async () => {
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Beareeer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 
     it('should not accept a request whit an expired token', async () => {
@@ -526,6 +526,6 @@ describe('DELETE /microphones/:id', async () => {
         const res = await supertest(app).delete(`/microphones/${micId}`).set('Authorization', `Bearer ${token}`);
         // Check that the status and headers of the response are correct
         expect(res.status, 'res-status').to.equal(401);
-        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('text/html');
+        expect(res.get('Content-type'), 'res.headers.Content-Type').to.have.string('application/json');
     });
 });
