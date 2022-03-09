@@ -10,21 +10,14 @@ const { authenticate, authorize } = require('../middleware/auth/authMiddleware')
 
 /**
  * @openapi
- * tags:
- *  name: Microphones
- *  description: Microphones managing API
- */
-
-/**
- * @openapi
  * /microphones:
  *   get:
- *    description: Returns a list of microphones
- *    summary: Returns a list of microphones
+ *    description: Get a list of microphones
+ *    summary: List microphones
  *    tags: [Microphones]
  *    responses:
  *     200:
- *      description: Returns a list of microphones based on queryParamas
+ *      description: An array of microphones
  *      content:
  *       application/json:
  *        schema:
@@ -37,8 +30,8 @@ router.get('/', getMics);
  * @openapi
  * /microphones/{id}:
  *  get:
- *   description: Get the microphone by id
- *   summary: Get the microphone by id
+ *   description: Get information about a specific microphone
+ *   summary: Get microphone info
  *   tags: [Microphones]
  *   parameters:
  *    - in: path
@@ -46,21 +39,90 @@ router.get('/', getMics);
  *      schema:
  *       type: string
  *      required: true
- *      description: the microphone id
+ *      description: The unique id for the microphone
  *   responses:
  *    200:
- *     description: Return the microphone data
+ *     description: The microphone information
  *     content:
  *       application/json:
  *        schema:
  *           $ref: '#/components/schemas/Microphone'
  *    404:
- *     description: The book is not found
+ *     $ref: '#/components/responses/NotFound'
  */
 router.get('/:id', idRequestSchema, validateRequest, loadMicFromParamsMiddleware, getMic);
 
+/**
+ * @openapi
+ * /microphones:
+ *  post:
+ *   description: Create a new microhpone
+ *   summary: Add microphone
+ *   tags: [Microphones]
+ *   security:
+ *    - bearerAuth: []
+ *   requestBody:
+ *    description: The information about the microphone
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/Microphone'
+ *   responses:
+ *    201:
+ *     description: The microphone information
+ *     content:
+ *       application/json:
+ *        schema:
+ *           $ref: '#/components/schemas/Microphone'
+ *    400:
+ *           $ref: '#/components/responses/Unauthorized'
+ *    401:
+ *           $ref: '#/components/responses/BadRequest'
+ */
 router.post('/', authenticate, micRequestSchema, validateRequest, setMic);
 
+/**
+ * @openapi
+ * /microphones/{id}:
+ *  patch:
+ *   description: Update a microhpone
+ *   summary: Update microphone
+ *   tags: [Microphones]
+ *   security:
+ *    - bearerAuth: []
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      schema:
+ *       type: string
+ *      required: true
+ *      description: The unique id for the microphone
+ *   requestBody:
+ *    description: The information about the microphone
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/Microphone'
+ *   responses:
+ *    200:
+ *     description: The updated microphone information
+ *     content:
+ *       application/json:
+ *        schema:
+ *           $ref: '#/components/schemas/Microphone'
+ *    400:
+ *           $ref: '#/components/responses/Unauthorized'
+ *    401:
+ *           $ref: '#/components/responses/BadRequest'
+ *    404:
+ *     description: User or microphone not found
+ *     content:
+ *       application/json:
+ *        schema:
+ *           $ref: '#/components/schemas/Error'
+ */
 router.patch(
     '/:id',
     authenticate,
@@ -72,6 +134,41 @@ router.patch(
     updateMic,
 );
 
+/**
+ * @openapi
+ * /microphones/{id}:
+ *  delete:
+ *   description: Delete a microhpone
+ *   summary: Delete microphone
+ *   tags: [Microphones]
+ *   security:
+ *    - bearerAuth: []
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      schema:
+ *       type: string
+ *      required: true
+ *      description: The unique id for the microphone
+ *   responses:
+ *    201:
+ *     description: The deleted microphone id
+ *     content:
+ *       application/json:
+ *        schema:
+ *           id:
+ *            type: string
+ *    400:
+ *           $ref: '#/components/responses/Unauthorized'
+ *    401:
+ *           $ref: '#/components/responses/BadRequest'
+ *    404:
+ *     description: User or microphone not found
+ *     content:
+ *       application/json:
+ *        schema:
+ *           $ref: '#/components/schemas/Error'
+ */
 router.delete(
     '/:id',
     authenticate,

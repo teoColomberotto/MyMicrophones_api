@@ -9,25 +9,31 @@ const { ApiError } = require('../errors/Classes/ApiError');
  * @param {*} req.header
  */
 const authenticate = asyncHandler(async (req, res, next) => {
-    const err = new ApiError({
+    const reqErr = new ApiError({
         status: 401,
         title: 'Bad Request',
         detail: 'Authentication error',
+        instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}`,
+    });
+    const authErr = new ApiError({
+        status: 400,
+        title: 'Unauthorized',
+        detail: 'The user is not authorized',
         instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}`,
     });
 
     // Ensure the header is present.
     const authorization = req.get('Authorization');
     if (!authorization) {
-        err.detail = 'Authorization header is missing';
-        return next(err);
+        reqErr.detail = 'Authorization header is missing';
+        return next(reqErr);
     }
 
     // Check that the header has the correct format.
     const match = authorization.match(/^Bearer (.+)$/);
     if (!match) {
-        err.detail = 'Authorization header is not a bearer token';
-        return next(err);
+        reqErr.detail = 'Authorization header is not a bearer token';
+        return next(reqErr);
     }
 
     // Extract and verify the JWT.
@@ -35,14 +41,14 @@ const authenticate = asyncHandler(async (req, res, next) => {
 
     // Check if no token
     if (!token) {
-        err.detail = 'The token is missing';
-        return next(err);
+        reqErr.detail = 'The token is missing';
+        return next(reqErr);
     }
 
     jwt.verify(token, config.secretKey, function (errV, payload) {
         if (errV) {
-            err.detail = 'Your token is invalid or has expired';
-            return next(err);
+            authErr.detail = 'Your token is invalid or has expired';
+            return next(authErr);
         }
         req.user = {};
         req.user.id = payload.userId;
