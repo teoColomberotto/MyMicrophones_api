@@ -103,7 +103,6 @@ const updateMic = asyncHandler(async (req, res, next) => {
         return next(
             ApiError.notfound({ detail: 'User not found', instance: `${req.baseUrl}/${req.params.id ? req.params.id : ''}` }),
         );
-        // return res.status(401).send('User not found');
     }
 
     if (mic.user.toString() !== userInfo.id && (await checkIfAdmin(userInfo.id)) !== 'admin') {

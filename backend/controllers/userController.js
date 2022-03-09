@@ -33,7 +33,6 @@ const loginUser = asyncHandler(async (req, res, next) => {
                 instance: `${req.baseUrl}/login`,
             }),
         );
-        // throw new Error('Invalid credentials');
     }
 });
 
@@ -54,7 +53,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
                 instance: `${req.baseUrl}/`,
             }),
         );
-        // throw new Error('User already exists');
     }
 
     // hash password
