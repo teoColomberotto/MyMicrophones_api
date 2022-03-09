@@ -7,8 +7,13 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'My Microphones API Docs',
+            title: 'My Microphones API Documentation',
             version: version.version,
+            description: "This is an academic purposes API for managing audio's microphones information.",
+            license: {
+                name: 'MIT',
+                url: 'https://opensource.org/licenses/MIT',
+            },
         },
         components: {
             securitySchemes: {
