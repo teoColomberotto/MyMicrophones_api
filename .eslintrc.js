@@ -28,5 +28,6 @@ module.exports = {
         'no-param-reassign': 'warn',
         'spaced-comment': 'warn',
         'object-curly-newline': 'warn',
+        'no-plusplus': 'off',
     },
 };
