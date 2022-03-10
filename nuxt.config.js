@@ -22,10 +22,10 @@ export default {
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
-    css: ['frontend/assets/style/global.css'],
+    css: ['frontend/assets/style/global.css', '@fortawesome/fontawesome-svg-core/styles.css'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [],
+    plugins: [{ src: '~/plugins/fontawesome.js' }],
 
     serverMiddleware: ['../app'],
 

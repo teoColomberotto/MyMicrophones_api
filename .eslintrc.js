@@ -29,5 +29,11 @@ module.exports = {
         'spaced-comment': 'warn',
         'object-curly-newline': 'warn',
         'no-plusplus': 'off',
+        'vue/multi-word-component-names': [
+            'error',
+            {
+                ignores: ['default'],
+            },
+        ],
     },
 };
