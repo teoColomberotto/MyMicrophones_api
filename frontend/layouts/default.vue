@@ -1,16 +1,16 @@
 <template>
     <div>
-        <the-header />
+        <!-- <the-header /> -->
         <Nuxt />
     </div>
 </template>
 
 <script>
-import TheHeader from '../components/templates/TheHeader.vue';
+// import TheHeader from '../components/templates/TheHeader.vue';
 
 export default {
     components: {
-        'the-header': TheHeader,
+        // 'the-header': TheHeader,
     },
 };
 </script>
