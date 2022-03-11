@@ -39,10 +39,9 @@ export default {
     props: {
         maxVisibleButtons: {
             type: Number,
-            required: false,
             default: 3,
         },
-        totalPages: {
+        pageSize: {
             type: Number,
             required: true,
         },
@@ -56,6 +55,9 @@ export default {
         },
     },
     computed: {
+        totalPages() {
+            return Math.floor(this.total + this.pageSize - 1) / this.pageSize;
+        },
         startPage() {
             if (this.currentPage === 1) {
                 return 1;
