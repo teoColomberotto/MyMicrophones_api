@@ -56,14 +56,15 @@ export default {
     },
     computed: {
         totalPages() {
-            return Math.floor(this.total + this.pageSize - 1) / this.pageSize;
+            return Math.ceil(this.total / this.pageSize) || 1;
+            // return (this.total - 1) / this.pageSize + 1;
         },
         startPage() {
             if (this.currentPage === 1) {
                 return 1;
             }
 
-            if (this.currentPage === this.totalPages) {
+            if (this.currentPage === this.totalPages && this.totalPages === this.maxVisibleButtons) {
                 // return this.totalPages - this.maxVisibleButtons + 1;
             }
 

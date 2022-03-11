@@ -1,7 +1,7 @@
 <template>
     <div>
         <profile-icon></profile-icon>
-        <my-pagination :pageSize="20" @pageChanged="onPageChange" :total="41" :current-page="currentPage"></my-pagination>
+        <my-pagination :pageSize="20" @pageChanged="onPageChange" :total="140" :current-page="currentPage"></my-pagination>
     </div>
 </template>
 
