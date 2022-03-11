@@ -46,6 +46,9 @@ button:active {
     color: var(--main-color-dark);
     background-color: transparent;
 }
+.flat:disabled {
+    color: var(--main-light-grey);
+}
 
 .outline {
     background-color: transparent;
