@@ -1,5 +1,6 @@
 <template>
     <div>
+        <my-image src="https://via.placeholder.com/150"></my-image>
         <!-- <my-snackbar type="message">
             <template #message> Ops, something went wrong</template>
         </my-snackbar>
@@ -30,11 +31,13 @@
 <script>
 import MyBadgeVue from '../components/atoms/MyBadge.vue';
 import MyButtonVue from '../components/atoms/MyButton.vue';
+import MyImageVue from '../components/atoms/MyImage.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
 
 export default {
     name: 'IndexPage',
     components: {
+        'my-image': MyImageVue,
         // 'my-snackbar': MySnackBarVue,
         // 'my-badge': MyBadgeVue,
         // 'my-button': MyButtonVue,
