@@ -1,6 +1,7 @@
 <template>
     <div>
-        <my-snackbar type="message">
+        <my-breadcrumbs></my-breadcrumbs>
+        <!-- <my-snackbar type="message">
             <template #message> Ops, something went wrong</template>
         </my-snackbar>
         <my-badge title="badge">
@@ -13,7 +14,7 @@
                 $store.dispatch('notifications/addNotification', { message: 'test notification message', type: 'success' })
             "
             >Push notification</my-button
-        >
+        > -->
         <!-- <profile-icon></profile-icon> -->
         <!-- <my-text-input
             type="password"
@@ -31,13 +32,15 @@
 import MyBadgeVue from '../components/atoms/MyBadge.vue';
 import MyButtonVue from '../components/atoms/MyButton.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
+import MyBreadCrumbsVue from '../components/molecules/MyBreadCrumbs.vue';
 
 export default {
     name: 'IndexPage',
     components: {
-        'my-snackbar': MySnackBarVue,
-        'my-badge': MyBadgeVue,
-        'my-button': MyButtonVue,
+        'my-breadcrumbs': MyBreadCrumbsVue,
+        // 'my-snackbar': MySnackBarVue,
+        // 'my-badge': MyBadgeVue,
+        // 'my-button': MyButtonVue,
         // 'my-pagination': MyPaginationVue,
     },
     data() {

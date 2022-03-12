@@ -1,8 +1,8 @@
 export default {
     addNotification({ commit }, notification) {
-        commit('push_notification', notification);
+        commit('PUSH_NOTIFICATION', notification);
     },
     removeNotification({ commit }, notification) {
-        commit('remove_notification', notification);
+        commit('REMOVE_NOTIFICATION', notification);
     },
 };
