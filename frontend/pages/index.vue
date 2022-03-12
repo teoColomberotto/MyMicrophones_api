@@ -1,6 +1,5 @@
 <template>
     <div>
-        <my-breadcrumbs></my-breadcrumbs>
         <!-- <my-snackbar type="message">
             <template #message> Ops, something went wrong</template>
         </my-snackbar>
@@ -32,12 +31,10 @@
 import MyBadgeVue from '../components/atoms/MyBadge.vue';
 import MyButtonVue from '../components/atoms/MyButton.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
-import MyBreadCrumbsVue from '../components/molecules/MyBreadCrumbs.vue';
 
 export default {
     name: 'IndexPage',
     components: {
-        'my-breadcrumbs': MyBreadCrumbsVue,
         // 'my-snackbar': MySnackBarVue,
         // 'my-badge': MyBadgeVue,
         // 'my-button': MyButtonVue,
