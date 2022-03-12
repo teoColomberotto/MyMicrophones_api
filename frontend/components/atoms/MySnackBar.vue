@@ -1,7 +1,7 @@
 <template>
     <div :class="type">
         <slot name="message"></slot>
-        <slot name="action"></slot>
+        <slot name="action" @>close</slot>
     </div>
 </template>
 
