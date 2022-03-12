@@ -61,4 +61,16 @@ button:active {
     background-color: var(--main-color);
     color: var(--main-white);
 }
+
+.icon {
+    background-color: transparent;
+    color: var(--main-color);
+    border: none;
+    padding: 0rem 0rem;
+}
+.icon:hover,
+.icon:active {
+    color: var(--main-color-dark);
+    background-color: transparent;
+}
 </style>

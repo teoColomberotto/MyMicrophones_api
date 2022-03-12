@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <header>
             <slot name="header"></slot>
         </header>
@@ -12,7 +12,7 @@ export default {};
 </script>
 
 <style scoped>
-div {
+.container {
     margin: 2rem auto;
     padding: 1rem;
     max-width: 40rem;
@@ -22,5 +22,8 @@ div {
 header {
     padding-top: 0px;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 </style>

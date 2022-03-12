@@ -1,15 +1,16 @@
 <template>
     <div>
-        <my-image src="https://via.placeholder.com/150"></my-image>
+        <my-item></my-item>
+        <!-- <my-image src="https://via.placeholder.com/150"></my-image> -->
         <!-- <my-snackbar type="message">
             <template #message> Ops, something went wrong</template>
-        </my-snackbar>
-        <my-badge title="badge">
+        </my-snackbar> -->
+        <!-- <my-badge title="badge">
             <template #icon>
                 <font-awesome-icon icon="fa-solid fa-user-tie" />
             </template>
-        </my-badge>
-        <my-button
+        </my-badge> -->
+        <!-- <my-button
             @click.native="
                 $store.dispatch('notifications/addNotification', { message: 'test notification message', type: 'success' })
             "
@@ -33,11 +34,13 @@ import MyBadgeVue from '../components/atoms/MyBadge.vue';
 import MyButtonVue from '../components/atoms/MyButton.vue';
 import MyImageVue from '../components/atoms/MyImage.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
+import MyItemVue from '../components/molecules/MyItem.vue';
 
 export default {
     name: 'IndexPage',
     components: {
-        'my-image': MyImageVue,
+        // 'my-image': MyImageVue,
+        'my-item': MyItemVue,
         // 'my-snackbar': MySnackBarVue,
         // 'my-badge': MyBadgeVue,
         // 'my-button': MyButtonVue,
