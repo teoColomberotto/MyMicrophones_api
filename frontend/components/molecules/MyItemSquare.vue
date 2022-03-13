@@ -21,7 +21,7 @@
                     <div class="item-info">
                         <my-rating :rating="item.rating"></my-rating>
                         <h1 class="item-info-name">{{ item.name }}</h1>
-                        <h3 class="item-info-manufactor">{{ item.manufactor }}</h3>
+                        <h3 class="item-info-manufactor" v-responsive="'hidden-xs'">{{ item.manufactor }}</h3>
                     </div>
                     <div class="item-badges-wrap" v-responsive="'hidden-xs'">
                         <my-badge :title="item.technology"></my-badge>
@@ -46,17 +46,14 @@ export default {
         'my-image': MyImageVue,
         'my-rating': MyRatingVue,
     },
+    props: {
+        item: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
         return {
-            item: {
-                name: 'Neumann U47',
-                manufactor: 'Georg Neumann GmbH',
-                year: '1951',
-                technology: 'condenser',
-                preamp: 'tube',
-                rating: 4.0,
-                id: '44465zrf85jvHz76FTgf8',
-            },
             imageZoom: false,
         };
     },
@@ -125,6 +122,12 @@ export default {
     }
 }
 /* MOBILE */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 544px) {
+    .item {
+        flex: 1 1 33.333%;
+        width: 100%;
+        padding: 10px;
+        max-width: 300px;
+    }
 }
 </style>

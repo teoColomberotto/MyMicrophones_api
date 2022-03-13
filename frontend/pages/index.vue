@@ -1,5 +1,6 @@
 <template>
     <div>
+        <my-items-list></my-items-list>
         <!-- <my-item-rectangle></my-item-rectangle> -->
         <!-- <my-image src="https://via.placeholder.com/150"></my-image> -->
         <!-- <my-snackbar type="message">
@@ -34,10 +35,12 @@ import MyImageVue from '../components/atoms/MyImage.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
 import MySpinnerVue from '../components/atoms/MySpinner.vue';
 import MyItemRectangleVue from '../components/molecules/MyItemRectangle.vue';
+import MyItemsListVue from '../components/organisms/MyItemsList.vue';
 
 export default {
     name: 'IndexPage',
     components: {
+        'my-items-list': MyItemsListVue,
         // 'my-image': MyImageVue,
         // 'my-item-rectangle': MyItemRectangleVue,
         // 'my-snackbar': MySnackBRectangle
