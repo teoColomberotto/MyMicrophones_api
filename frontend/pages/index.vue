@@ -10,12 +10,10 @@
                 <font-awesome-icon icon="fa-solid fa-user-tie" />
             </template>
         </my-badge> -->
-        <!-- <my-button
-            @click.native="
-                $store.dispatch('notifications/addNotification', { message: 'test notification message', type: 'success' })
-            "
-            >Push notification</my-button
-        > -->
+        <!-- <my-button @click.native="$store.dispatch('microphones/getMicrophones', { manufactor: 'Neumann' })"
+            >Get Microphones</my-button
+        >
+        <my-button @click.native="getMics()">See microphones</my-button> -->
         <!-- <profile-icon></profile-icon> -->
         <!-- <my-text-input
             type="password"
