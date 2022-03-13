@@ -1,38 +1,41 @@
 <template>
-    <my-card>
-        <template #header>
-            <div class="badges">
-                <my-badge :title="item.technology"></my-badge>
-                <my-badge :title="item.preamp"></my-badge>
-            </div>
+    <div class="item">
+        <div class="item-container">
             <div class="favorite">
                 <my-button mode="icon">
                     <font-awesome-icon icon="fa-regular fa-star" size="3x" />
                 </my-button>
             </div>
-        </template>
-        <template #body>
-            <my-image class="image" src="https://via.placeholder.com/150"></my-image>
-            <div class="info">
-                <h1 class="info-name">{{ item.name }}</h1>
-                <h3 class="info-manufactor">{{ item.manufactor }}</h3>
+            <div class="item-image-wrap">
+                <client-only>
+                    <my-image
+                        class="image"
+                        src="https://static-neumann.s3.amazonaws.com/img/1859/product_detail_x2_desktop_U-47_Neumann-Studio-Microphone_H.png"
+                    ></my-image>
+                </client-only>
             </div>
-            <div class="actions">
-                <my-button>View info</my-button>
+            <div class="item-detail">
+                <div class="item-badges-wrap">
+                    <my-badge :title="item.technology"></my-badge>
+                    <my-badge :title="item.preamp"></my-badge>
+                </div>
+
+                <div class="item-info">
+                    <h1 class="item-info-name">{{ item.name }}</h1>
+                    <h3 class="item-info-manufactor">{{ item.manufactor }}</h3>
+                </div>
             </div>
-        </template>
-    </my-card>
+        </div>
+    </div>
 </template>
 
 <script>
 import MyBadgeVue from '../atoms/MyBadge.vue';
 import MyButtonVue from '../atoms/MyButton.vue';
-import MyCardVue from '../atoms/MyCard.vue';
 import MyImageVue from '../atoms/MyImage.vue';
 
 export default {
     components: {
-        'my-card': MyCardVue,
         'my-badge': MyBadgeVue,
         'my-button': MyButtonVue,
         'my-image': MyImageVue,
@@ -52,8 +55,54 @@ export default {
 </script>
 
 <style scoped>
-.info-name {
-    font-size: xx-large;
+.item {
+    flex: 1 1 33.333%;
+    width: 100%;
+    padding: 25px;
+    max-width: 400px;
+}
+
+.item-container {
+    overflow: hidden;
+    position: relative;
+    padding: 25px;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+}
+.item-image-wrap {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    margin: -25px 0px 0px 0px;
+}
+.image {
+    width: 100%;
+}
+
+.item-detail {
+    position: relative;
+    z-index: 0;
+    padding: 0px 15px 15px 15px;
+    margin: 0px -25px -25px;
+}
+
+.favorite {
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    right: 0px;
+    padding: 10px;
+}
+
+.item-info {
+}
+
+.item-info-name {
+    font-size: 4rem;
     font-weight: 900;
+}
+
+.item-info-manufactor {
+    position: absolute;
+    bottom: 10px;
 }
 </style>

@@ -23,7 +23,7 @@ export default {
         objectFit: {
             type: String,
             required: false,
-            default: 'contain',
+            default: 'cover',
         },
         placeholder: { type: String, default: 'https://via.placeholder.com/150' },
         background: String,
