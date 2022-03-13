@@ -1,5 +1,5 @@
 <template>
-    <div class="badge-container">
+    <div class="badge-container" :style="{ backgroundColor: bgColor, color: textColor }">
         <slot name="icon"></slot>
         <span class="badge-text" :class="type" v-if="title"> {{ text }}</span>
     </div>
@@ -10,6 +10,8 @@ export default {
     props: {
         type: { type: String, required: false, default: '' },
         title: { type: String, required: false },
+        bgColor: { type: String, required: false, default: 'var(--main-light-grey)' },
+        textColor: { type: String, required: false, default: 'var(--main-black)' },
     },
     computed: {
         text() {
@@ -21,8 +23,6 @@ export default {
 
 <style>
 .badge-container {
-    background-color: var(--main-light-grey);
-    color: var(--main-black);
     border-radius: 30px;
     padding: 0.3rem 1rem;
     display: inline-block;
