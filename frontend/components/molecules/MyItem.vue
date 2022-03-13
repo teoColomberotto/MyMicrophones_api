@@ -1,7 +1,7 @@
 <template>
     <div class="item">
         <div class="item-container">
-            <div class="favorite">
+            <div class="favorite" v-responsive="'hidden-xs'">
                 <my-button mode="icon">
                     <font-awesome-icon icon="fa-regular fa-star" size="3x" />
                 </my-button>
@@ -15,7 +15,7 @@
                 </client-only>
             </div>
             <div class="item-detail">
-                <div class="item-badges-wrap">
+                <div class="item-badges-wrap" v-responsive="'hidden-xs'">
                     <my-badge :title="item.technology"></my-badge>
                     <my-badge :title="item.preamp"></my-badge>
                 </div>
@@ -93,16 +93,22 @@ export default {
     padding: 10px;
 }
 
-.item-info {
+/* DESKTOP */
+@media only screen and (min-width: 600px) {
+    .item-info-name {
+        font-size: 4rem;
+        font-weight: 900;
+    }
+    .item-info-manufactor {
+        position: absolute;
+        bottom: 10px;
+    }
 }
-
-.item-info-name {
-    font-size: 4rem;
-    font-weight: 900;
-}
-
-.item-info-manufactor {
-    position: absolute;
-    bottom: 10px;
+/* MOBILE */
+@media only screen and (max-width: 600px) {
+    .item-info-name {
+        font-size: 8vw;
+        font-weight: 900;
+    }
 }
 </style>
