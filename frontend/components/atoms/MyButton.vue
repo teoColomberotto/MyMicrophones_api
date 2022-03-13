@@ -1,5 +1,5 @@
 <template>
-    <button :class="mode">
+    <button :class="mode" :style="{ color: iconColor }">
         <slot></slot>
     </button>
 </template>
@@ -11,6 +11,11 @@ export default {
             type: String,
             required: false,
             default: null,
+        },
+        iconColor: {
+            type: String,
+            required: false,
+            default: 'var(--main-white)',
         },
     },
 };
@@ -24,7 +29,6 @@ button {
     background-color: var(--main-color);
     border: none;
     border-radius: 20px;
-    color: var(--main-white);
     cursor: pointer;
 }
 
