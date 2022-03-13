@@ -1,6 +1,6 @@
 <template>
     <div>
-        <my-item-rectangle></my-item-rectangle>
+        <!-- <my-item-rectangle></my-item-rectangle> -->
         <!-- <my-image src="https://via.placeholder.com/150"></my-image> -->
         <!-- <my-snackbar type="message">
             <template #message> Ops, something went wrong</template>
@@ -34,13 +34,14 @@ import MyBadgeVue from '../components/atoms/MyBadge.vue';
 import MyButtonVue from '../components/atoms/MyButton.vue';
 import MyImageVue from '../components/atoms/MyImage.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
+import MySpinnerVue from '../components/atoms/MySpinner.vue';
 import MyItemRectangleVue from '../components/molecules/MyItemRectangle.vue';
 
 export default {
     name: 'IndexPage',
     components: {
         // 'my-image': MyImageVue,
-        'my-item-rectangle': MyItemRectangleVue,
+        // 'my-item-rectangle': MyItemRectangleVue,
         // 'my-snackbar': MySnackBRectangle
         // 'my-badge': MyBadgeVue,
         // 'my-button': MyButtonVue,
