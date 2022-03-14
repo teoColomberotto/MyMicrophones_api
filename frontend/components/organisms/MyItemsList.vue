@@ -23,7 +23,10 @@ export default {
     },
     mounted() {
         console.log('list mounted');
-        this.microphones = this.$store.getters['microphones/getMicrophones'];
+        this.microphones = this.$store.getters['microphones/getMicrophones']({
+            direction: 'DESC',
+            parameter: 'rating',
+        });
     },
 };
 </script>
