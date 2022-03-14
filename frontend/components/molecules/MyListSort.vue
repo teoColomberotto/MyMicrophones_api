@@ -21,7 +21,20 @@ export default {
             type: Array,
             required: false,
             // eslint-disable-next-line vue/require-valid-default-prop
-            default: () => ['Rating', 'Year', 'Name'],
+            default: () => [
+                {
+                    label: 'Rating',
+                    value: 'Rating',
+                },
+                {
+                    label: 'Year',
+                    value: 'Year',
+                },
+                {
+                    label: 'Name',
+                    value: 'Name',
+                },
+            ],
         },
     },
     data() {

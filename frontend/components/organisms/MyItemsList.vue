@@ -7,6 +7,7 @@
             :pageSize="pageSize"
             :current-page="currentPage"
             @pageChanged="pageChanged"
+            @pageSizeChanged="pageSizeChanged"
         ></my-pagination>
         <div class="list-container" v-if="!isLoading">
             <my-item-square
@@ -72,6 +73,20 @@ export default {
             });
             this.isLoading = false;
         },
+        async pageSizeChanged(currentPage, pageSize) {
+            console.log('dispatch action pageSize', this.pageSize, this.currentPage);
+            if (this.pageSize === pageSize) {
+                return;
+            }
+            this.currentPage = 1;
+            this.pageSize = pageSize;
+            this.isLoading = true;
+            await this.$store.dispatch('microphones/getMicrophones', {
+                pageSize: this.pageSize,
+                page: this.currentPage,
+            });
+            this.isLoading = false;
+        },
     },
 };
 </script>
@@ -82,10 +97,12 @@ export default {
 }
 
 .list-container {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex: 1 1 0;
     flex-wrap: wrap;
+    z-index: 0;
 }
 
 .list-sort {

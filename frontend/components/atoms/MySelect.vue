@@ -9,12 +9,12 @@
                 v-for="(option, i) of options"
                 :key="i"
                 @click="
-                    selected = option;
+                    selected = option.label;
                     open = false;
-                    $emit('input-selected', option);
+                    $emit('input-selected', option.value);
                 "
             >
-                {{ option }}
+                {{ option.label }}
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@ export default {
     data() {
         return {
             // eslint-disable-next-line no-nested-ternary
-            selected: this.default ? this.default : this.options.length > 0 ? this.options[0] : null,
+            selected: this.default ? this.default : this.options.length > 0 ? this.options[0].label : null,
             open: false,
         };
     },

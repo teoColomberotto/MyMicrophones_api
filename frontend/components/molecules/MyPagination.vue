@@ -1,40 +1,71 @@
 /* eslint-disable max-len */
 <template>
-    <ul class="pagination">
-        <li class="pagination-item">
-            <my-button type="button" :mode="'flat'" @click.native="onClickFirstPage" :disabled="isInFirstPage"> First </my-button>
-        </li>
-        <li class="pagination-item">
-            <my-button type="button" :mode="'flat'" @click.native="onClickPreviousPage" :disabled="isInFirstPage">
-                &lt;
-            </my-button>
-        </li>
-        <li v-for="(page, index) in pages" :key="index" class="pagination-item">
-            <my-button
-                type="button"
-                :mode="'flat'"
-                @click.native="onClickPage(page.name)"
-                :disabled="page.isDisabled"
-                :class="{ active: isPageActive(page.name) }"
-            >
-                {{ page.name }}
-            </my-button>
-        </li>
-        <li class="pagination-item">
-            <my-button type="button" :mode="'flat'" @click.native="onClickNextPage" :disabled="isInLastPage"> &gt; </my-button>
-        </li>
-        <li class="pagination-item">
-            <my-button type="button" :mode="'flat'" @click.native="onClickLastPage" :disabled="isInLastPage"> Last </my-button>
-        </li>
-    </ul>
+    <div class="pagination-container">
+        <ul class="pagination">
+            <li class="pagination-item">
+                <my-button type="button" :mode="'flat'" @click.native="onClickFirstPage" :disabled="isInFirstPage">
+                    First
+                </my-button>
+            </li>
+            <li class="pagination-item">
+                <my-button type="button" :mode="'flat'" @click.native="onClickPreviousPage" :disabled="isInFirstPage">
+                    &lt;
+                </my-button>
+            </li>
+            <li v-for="(page, index) in pages" :key="index" class="pagination-item">
+                <my-button
+                    type="button"
+                    :mode="'flat'"
+                    @click.native="onClickPage(page.name)"
+                    :disabled="page.isDisabled"
+                    :class="{ active: isPageActive(page.name) }"
+                >
+                    {{ page.name }}
+                </my-button>
+            </li>
+            <li class="pagination-item">
+                <my-button type="button" :mode="'flat'" @click.native="onClickNextPage" :disabled="isInLastPage">
+                    &gt;
+                </my-button>
+            </li>
+            <li class="pagination-item">
+                <my-button type="button" :mode="'flat'" @click.native="onClickLastPage" :disabled="isInLastPage">
+                    Last
+                </my-button>
+            </li>
+        </ul>
+        <div class="page-size">
+            <my-select :options="pageSizes" @input-selected="changePageSize"></my-select>
+        </div>
+    </div>
 </template>
 
 <script>
 import MyButton from '../atoms/MyButton.vue';
+import MySelectVue from '../atoms/MySelect.vue';
 
 export default {
     components: {
         'my-button': MyButton,
+        'my-select': MySelectVue,
+    },
+    data() {
+        return {
+            pageSizes: [
+                {
+                    label: '1 Items',
+                    value: 1,
+                },
+                {
+                    label: '5 Items',
+                    value: 5,
+                },
+                {
+                    label: '20 Items',
+                    value: 20,
+                },
+            ],
+        };
     },
     props: {
         maxVisibleButtons: {
@@ -117,11 +148,22 @@ export default {
         isPageActive(page) {
             return this.currentPage === page;
         },
+        changePageSize(pageSize) {
+            this.$emit('pageSizeChanged', this.currentPage, pageSize);
+        },
     },
 };
 </script>
 
 <style lang="css" scoped>
+.pagination-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.page-size {
+    margin-left: 60px;
+}
 .pagination {
     list-style-type: none;
 }
