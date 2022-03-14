@@ -1,16 +1,13 @@
 <template>
     <div class="items">
-        <div class="actions">
-            <my-list-sort class="list-sort" @sort-changed="sortItems"></my-list-sort>
-            <my-pagination
-                class="list-pagination"
-                :total="items.length"
-                :pageSize="pageSize"
-                :current-page="currentPage"
-                @pageChanged="pageChanged"
-            ></my-pagination>
-        </div>
-
+        <my-list-sort class="list-sort" @sort-changed="sortItems"></my-list-sort>
+        <my-pagination
+            class="list-pagination"
+            :total="totalItemsNr"
+            :pageSize="pageSize"
+            :current-page="currentPage"
+            @pageChanged="pageChanged"
+        ></my-pagination>
         <div class="list-container">
             <my-item-square
                 v-for="microphone in microphones"
@@ -35,40 +32,37 @@ export default {
     },
     data() {
         return {
-            items: null,
-            microphones: null,
+            items: [],
+            totalItemsNr: 0,
             currentPage: 1,
-            pageSize: 5,
+            pageSize: 2,
         };
     },
-    created() {
-        this.items = this.$store.getters['microphones/getMicrophones']({
-            direction: 'ASC',
-            parameter: 'rating',
+    async created() {
+        await this.$store.dispatch('microphones/getMicrophonesNumber');
+        await this.$store.dispatch('microphones/getMicrophones', {
+            pageSize: this.pageSize,
+            page: this.currentPage,
         });
-        this.microphones = this.items;
+        console.log('state', this.$store.state.microphones.microphones);
+        this.totalItemsNr = this.$store.getters['microphones/getMicrophonesNumber'];
+        console.log('created list', this.microphones, this.totalItemsNr);
     },
-    mounted() {},
+    computed: {
+        microphones() {
+            return this.$store.getters['microphones/getMicrophones'];
+        },
+    },
     methods: {
         sortItems(sortSettings) {
-            const mics = this.items;
-            mics.sort((a, b) => {
-                if (sortSettings.direction === 'DESC') {
-                    return a[sortSettings.parameter] < b[sortSettings.parameter] ? 1 : -1;
-                }
-                if (sortSettings.direction === 'ASC') {
-                    return a[sortSettings.parameter] > b[sortSettings.parameter] ? 1 : -1;
-                }
-                return 1;
-            });
-            this.microphones = mics;
+            this.$store.dispatch('microphones/sortMicrophones', sortSettings);
         },
         pageChanged(currentPage) {
             this.currentPage = currentPage;
-            const mics = this.items;
-            const output = mics.slice((currentPage - 1) * this.pageSize, currentPage * this.pageSize);
-            console.log(mics);
-            this.microphones = output;
+            this.$store.dispatch('microphones/getMicrophones', {
+                pageSize: this.pageSize,
+                page: this.currentPage,
+            });
         },
     },
 };
@@ -78,10 +72,7 @@ export default {
 .items {
     display: block;
 }
-.actions {
-    display: flex;
-    align-items: center;
-}
+
 .list-container {
     display: flex;
     flex-direction: row;

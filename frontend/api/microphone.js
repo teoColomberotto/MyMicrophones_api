@@ -1,10 +1,8 @@
 export default (axios) => ({
     getMicrophones(queryParams) {
         return axios
-            .get('/microphones', null, {
-                params: {
-                    ...queryParams,
-                },
+            .get('/microphones', {
+                params: queryParams,
             })
             .then((response) => {
                 return response.data;
