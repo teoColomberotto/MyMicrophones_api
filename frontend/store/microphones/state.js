@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 export default () => ({
     microphonesNumber: null,
+    filterQuery: '',
     microphones: [
         // {
         //     name: 'Aeumann U47',

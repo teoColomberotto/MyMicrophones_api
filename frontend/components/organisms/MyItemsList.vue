@@ -9,6 +9,7 @@
             @pageChanged="pageChanged"
             @pageSizeChanged="pageSizeChanged"
         ></my-pagination>
+        <input type="search" v-model="filterQuery" class="list-search" />
         <div class="list-container" v-if="!isLoading">
             <my-item-square
                 v-for="microphone in microphones"
@@ -41,8 +42,9 @@ export default {
             items: [],
             totalItemsNr: 0,
             currentPage: 1,
-            pageSize: 2,
+            pageSize: 1,
             isLoading: false,
+            filterQuery: '',
         };
     },
     async created() {
@@ -88,6 +90,12 @@ export default {
             this.isLoading = false;
         },
     },
+    watch: {
+        filterQuery: function (val, oldVal) {
+            console.log(val, oldVal);
+            this.$store.dispatch('microphones/filterMicrophones', val);
+        },
+    },
 };
 </script>
 
@@ -112,5 +120,10 @@ export default {
 .list-pagination {
     position: relative;
     z-index: 5;
+}
+.list-search {
+    position: relative;
+    z-index: 5;
+    background-color: red;
 }
 </style>

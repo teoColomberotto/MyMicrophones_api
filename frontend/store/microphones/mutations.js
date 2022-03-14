@@ -16,4 +16,7 @@ export default {
             return 1;
         });
     },
+    UPDATE_FILTER(state, filterQuery) {
+        state.filterQuery = filterQuery;
+    },
 };

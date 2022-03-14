@@ -14,4 +14,8 @@ export default {
     sortMicrophones({ commit }, sortSettings) {
         commit('SORT_MICROPHONES', sortSettings);
     },
+
+    filterMicrophones({ commit }, filterQuery) {
+        commit('UPDATE_FILTER', filterQuery);
+    },
 };
