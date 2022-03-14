@@ -54,12 +54,12 @@ export default {
         },
     },
     methods: {
-        sortItems(sortSettings) {
-            this.$store.dispatch('microphones/sortMicrophones', sortSettings);
+        async sortItems(sortSettings) {
+            await this.$store.dispatch('microphones/sortMicrophones', sortSettings);
         },
-        pageChanged(currentPage) {
+        async pageChanged(currentPage) {
             this.currentPage = currentPage;
-            this.$store.dispatch('microphones/getMicrophones', {
+            await this.$store.dispatch('microphones/getMicrophones', {
                 pageSize: this.pageSize,
                 page: this.currentPage,
             });
