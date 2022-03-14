@@ -72,7 +72,7 @@ export default {
 .item {
     flex: 1 1 33.333%;
     width: 100%;
-    padding: 25px;
+    padding: 20px;
     max-width: 300px;
 }
 
