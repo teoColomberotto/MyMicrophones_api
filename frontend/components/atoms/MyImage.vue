@@ -10,11 +10,6 @@
 <script>
 export default {
     inheritAttrs: false,
-    data() {
-        return {
-            timeOut: null,
-        };
-    },
     props: {
         src: {
             type: String,
@@ -25,7 +20,7 @@ export default {
             required: false,
             default: 'cover',
         },
-        placeholder: { type: String, default: 'https://via.placeholder.com/150' },
+        placeholder: { type: String, default: 'https://via.placeholder.com/450' },
         background: String,
     },
 
@@ -44,7 +39,7 @@ export default {
     },
     mounted() {
         const { src, srcset, $el } = this;
-
+        let timeOut;
         const observer = new IntersectionObserver(([entry]) => {
             const img = $el.querySelector('img');
             const placeholder = $el.querySelector('.img-placeholder');
@@ -53,7 +48,7 @@ export default {
                 delete img.onload;
                 $el.classList.add('img--loaded');
                 if (placeholder) {
-                    this.timeOut = setTimeout(() => {
+                    timeOut = setTimeout(() => {
                         placeholder.remove();
                     }, 300);
                 }
@@ -72,8 +67,8 @@ export default {
 
         this.$once('hook:beforeDestroy', () => {
             observer.disconnect();
-            if (this.timeOut) {
-                clearTimeout(this.timeOut);
+            if (timeOut) {
+                clearTimeout(timeOut);
             }
         });
     },
@@ -83,6 +78,7 @@ export default {
 <style scoped>
 .image-container {
     display: inline-block;
+    position: relative;
 }
 .img-placeholder {
     position: absolute;

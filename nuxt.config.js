@@ -2,6 +2,7 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable quotes */
 export default {
+    loading: false,
     // Source directory folder
     srcDir: 'frontend/',
     // Build directory path

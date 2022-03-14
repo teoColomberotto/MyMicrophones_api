@@ -8,7 +8,7 @@
             :current-page="currentPage"
             @pageChanged="pageChanged"
         ></my-pagination>
-        <div class="list-container">
+        <div class="list-container" v-if="!isLoading">
             <my-item-square
                 v-for="microphone in microphones"
                 :key="microphone._id"
@@ -16,10 +16,14 @@
                 class="list-item"
             ></my-item-square>
         </div>
+        <div class="loading-spinner" v-if="isLoading">
+            <my-spinner></my-spinner>
+        </div>
     </div>
 </template>
 
 <script>
+import MySpinnerVue from '../atoms/MySpinner.vue';
 import MyItemSquareVue from '../molecules/MyItemSquare.vue';
 import MyListSortVue from '../molecules/MyListSort.vue';
 import MyPaginationVue from '../molecules/MyPagination.vue';
@@ -29,6 +33,7 @@ export default {
         'my-item-square': MyItemSquareVue,
         'my-list-sort': MyListSortVue,
         'my-pagination': MyPaginationVue,
+        'my-spinner': MySpinnerVue,
     },
     data() {
         return {
@@ -36,6 +41,7 @@ export default {
             totalItemsNr: 0,
             currentPage: 1,
             pageSize: 2,
+            isLoading: false,
         };
     },
     async created() {
@@ -59,10 +65,12 @@ export default {
         },
         async pageChanged(currentPage) {
             this.currentPage = currentPage;
+            this.isLoading = true;
             await this.$store.dispatch('microphones/getMicrophones', {
                 pageSize: this.pageSize,
                 page: this.currentPage,
             });
+            this.isLoading = false;
         },
     },
 };

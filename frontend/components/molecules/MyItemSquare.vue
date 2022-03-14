@@ -10,10 +10,14 @@
                 <div class="item-image-wrap">
                     <client-only>
                         <div :class="imageZoom ? 'item-hover' : ''">
-                            <my-image
+                            <!-- <my-image
                                 class="image"
                                 src="https://static-neumann.s3.amazonaws.com/img/1859/product_detail_x2_desktop_U-47_Neumann-Studio-Microphone_H.png"
-                            ></my-image>
+                            ></my-image> -->
+                            <img
+                                class="image"
+                                src="https://static-neumann.s3.amazonaws.com/img/1859/product_detail_x2_desktop_U-47_Neumann-Studio-Microphone_H.png"
+                            />
                         </div>
                     </client-only>
                 </div>
@@ -43,7 +47,7 @@ export default {
     components: {
         'my-badge': MyBadgeVue,
         'my-button': MyButtonVue,
-        'my-image': MyImageVue,
+        // 'my-image': MyImageVue,
         'my-rating': MyRatingVue,
     },
     props: {
