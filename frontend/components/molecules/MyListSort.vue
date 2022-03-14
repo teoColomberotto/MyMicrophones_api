@@ -27,7 +27,7 @@ export default {
     data() {
         return {
             direction: true,
-            parameter: 'rating',
+            parameter: 'Rating',
         };
     },
     computed: {
@@ -52,7 +52,7 @@ export default {
             if (this.parameter === 'Name' && this.direction === false) {
                 return 'fa-solid fa-arrow-up-z-a';
             }
-            return null;
+            return 'fa-solid fa-arrow-down-wide-short';
         },
         getDirection() {
             let dir = 'ASC';
@@ -62,6 +62,7 @@ export default {
             return dir;
         },
     },
+    mounted() {},
     methods: {
         onChangeDirection() {
             this.direction = !this.direction;
@@ -73,7 +74,10 @@ export default {
             this.$emit('sort-changed', payload);
         },
         onChangeParameter(option) {
-            console.log('parameter changed');
+            console.log('parameter changed', option);
+            if (option === this.parameter) {
+                return;
+            }
             this.parameter = option;
             const payload = {
                 direction: this.getDirection,

@@ -2,7 +2,7 @@
 export default () => ({
     microphones: [
         {
-            name: 'Neumann U47',
+            name: 'Aeumann U47',
             manufactor: 'Georg Neumann GmbH',
             year: '1901',
             technology: 'condenser',
@@ -11,7 +11,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf1',
         },
         {
-            name: 'Neumann U87',
+            name: 'Beumann U87',
             manufactor: 'Georg Neumann GmbH',
             year: '1951',
             technology: 'condenser',
@@ -20,7 +20,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf2',
         },
         {
-            name: 'Neumann U67',
+            name: 'Ceumann U67',
             manufactor: 'Georg Neumann GmbH',
             year: '1901',
             technology: 'condenser',
@@ -29,7 +29,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf3',
         },
         {
-            name: 'Neumann U47',
+            name: 'Eeumann U47',
             manufactor: 'Georg Neumann GmbH',
             year: '1951',
             technology: 'condenser',
@@ -38,7 +38,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf4',
         },
         {
-            name: 'Neumann U87',
+            name: 'Beumann U87',
             manufactor: 'Georg Neumann GmbH',
             year: '1901',
             technology: 'condenser',
@@ -47,7 +47,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf5',
         },
         {
-            name: 'Neumann U67',
+            name: 'Ceumann U67',
             manufactor: 'Georg Neumann GmbH',
             year: '1951',
             technology: 'condenser',
@@ -56,7 +56,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf6',
         },
         {
-            name: 'Neumann U47',
+            name: 'Feumann U47',
             manufactor: 'Georg Neumann GmbH',
             year: '1951',
             technology: 'condenser',
@@ -74,7 +74,7 @@ export default () => ({
             _id: '44465zrf85jvHz76FTgf8',
         },
         {
-            name: 'Neumann U67',
+            name: 'Geumann U67',
             manufactor: 'Georg Neumann GmbH',
             year: '1951',
             technology: 'condenser',

@@ -1,7 +1,6 @@
 <template>
     <div>
-        <my-list-sort></my-list-sort>
-        <!-- <my-items-list></my-items-list> -->
+        <my-items-list></my-items-list>
         <!-- <my-item-rectangle></my-item-rectangle> -->
         <!-- <my-image src="https://via.placeholder.com/150"></my-image> -->
         <!-- <my-snackbar type="message">
@@ -43,9 +42,9 @@ import MyItemsListVue from '../components/organisms/MyItemsList.vue';
 export default {
     name: 'IndexPage',
     components: {
-        'my-list-sort': MyListSortVue,
+        // 'my-list-sort': MyListSortVue,
         // 'my-select': MySelectVue,
-        // 'my-items-list': MyItemsListVue,
+        'my-items-list': MyItemsListVue,
         // 'my-image': MyImageVue,
         // 'my-item-rectangle': MyItemRectangleVue,
         // 'my-snackbar': MySnackBRectangle

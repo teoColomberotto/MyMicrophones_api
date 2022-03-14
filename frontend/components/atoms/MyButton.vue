@@ -40,7 +40,7 @@ button:active {
 
 .flat {
     background-color: transparent;
-    color: var(--main-color);
+    color: var(--main-black) !important;
     border: none;
     text-decoration: underline;
 }

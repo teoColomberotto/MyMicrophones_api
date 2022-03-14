@@ -46,7 +46,7 @@ export default {
         };
     },
     mounted() {
-        this.$emit('input-selected', this.selected);
+        // this.$emit('input-selected', this.selected);
     },
     computed: {
         iconDispay() {
