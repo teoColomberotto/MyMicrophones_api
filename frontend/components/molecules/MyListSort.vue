@@ -1,7 +1,7 @@
 <template>
     <div class="sort-container">
         <my-button mode="icon" iconColor="var(--main-black)" @click.native="onChangeDirection()" class="sort-direction">
-            <font-awesome-icon :icon="sortIcon" size="2x" />
+            <font-awesome-icon :icon="sortIcon" font-size="20px" />
         </my-button>
         <my-select :options="parameters" @input-selected="onChangeParameter" class="sort-parameter-wrap"></my-select>
     </div>
@@ -89,6 +89,7 @@ export default {
 .sort-container {
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 10px;
 }
 .sort-direction {

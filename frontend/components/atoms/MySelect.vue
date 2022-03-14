@@ -74,6 +74,8 @@ export default {
     align-items: center;
     min-width: 200px;
     max-width: 300px;
+    user-select: none;
+    cursor: pointer;
 }
 
 .select-icon {
