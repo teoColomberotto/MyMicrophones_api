@@ -33,6 +33,7 @@
 import MyBadgeVue from '../components/atoms/MyBadge.vue';
 import MyButtonVue from '../components/atoms/MyButton.vue';
 import MyImageVue from '../components/atoms/MyImage.vue';
+import MySelectVue from '../components/atoms/MySelect.vue';
 import MySnackBarVue from '../components/atoms/MySnackBar.vue';
 import MySpinnerVue from '../components/atoms/MySpinner.vue';
 import MyItemRectangleVue from '../components/molecules/MyItemRectangle.vue';
@@ -43,6 +44,7 @@ export default {
     name: 'IndexPage',
     components: {
         'my-list-sort': MyListSortVue,
+        // 'my-select': MySelectVue,
         // 'my-items-list': MyItemsListVue,
         // 'my-image': MyImageVue,
         // 'my-item-rectangle': MyItemRectangleVue,
